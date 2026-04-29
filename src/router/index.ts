@@ -10,6 +10,17 @@ export const staticRoutes: RouteRecordRaw[] = [
     component: () => import('@/layouts/AdminLayout.vue'),
     redirect: '/dashboard/workspace',
     children: [
+      // 分组父路径默认重定向 (避免敲到 /system 等出现空白)
+      { path: 'dashboard', redirect: '/dashboard/workspace' },
+      { path: 'system', redirect: '/system/user' },
+      { path: 'content', redirect: '/content/article' },
+      { path: 'components', redirect: '/components/editor' },
+      { path: 'charts', redirect: '/charts/line' },
+      { path: 'hooks', redirect: '/hooks/use-loading' },
+      { path: 'features', redirect: '/features/dayjs' },
+      { path: 'ui', redirect: '/ui/button' },
+      { path: 'permission', redirect: '/permission/demo' },
+      { path: 'rules', redirect: '/rules/maze' },
       // Dashboard group
       {
         path: 'dashboard/workspace',
@@ -79,6 +90,54 @@ export const staticRoutes: RouteRecordRaw[] = [
         name: 'DragDemo',
         component: () => import('@/views/components/DragDemo.vue'),
         meta: { title: '拖拽列表' },
+      },
+      {
+        path: 'components/drag-kanban',
+        name: 'DragKanbanDemo',
+        component: () => import('@/views/components/DragKanbanDemo.vue'),
+        meta: { title: '看板拖拽' },
+      },
+      {
+        path: 'components/drag-tree',
+        name: 'DragNestedTreeDemo',
+        component: () => import('@/views/components/DragNestedTreeDemo.vue'),
+        meta: { title: '嵌套树拖拽' },
+      },
+      {
+        path: 'components/drag-grid',
+        name: 'DragGridDemo',
+        component: () => import('@/views/components/DragGridDemo.vue'),
+        meta: { title: '拖拽排序网格' },
+      },
+      {
+        path: 'components/drag-native',
+        name: 'DragNativeDemo',
+        component: () => import('@/views/components/DragNativeDemo.vue'),
+        meta: { title: '原生 HTML5 拖放' },
+      },
+      {
+        path: 'components/editor-markdown',
+        name: 'EditorMarkdownDemo',
+        component: () => import('@/views/components/EditorMarkdownDemo.vue'),
+        meta: { title: 'Markdown 编辑器' },
+      },
+      {
+        path: 'components/editor-code',
+        name: 'EditorCodeDemo',
+        component: () => import('@/views/components/EditorCodeDemo.vue'),
+        meta: { title: '代码编辑器' },
+      },
+      {
+        path: 'components/editor-light',
+        name: 'EditorLightDemo',
+        component: () => import('@/views/components/EditorLightDemo.vue'),
+        meta: { title: '轻量富文本' },
+      },
+      {
+        path: 'components/editor-reader',
+        name: 'EditorReaderDemo',
+        component: () => import('@/views/components/EditorReaderDemo.vue'),
+        meta: { title: '文档阅读器' },
       },
       {
         path: 'components/icons',
@@ -268,6 +327,48 @@ export const staticRoutes: RouteRecordRaw[] = [
         meta: { title: '打印' },
       },
       {
+        path: 'features/qrcode',
+        name: 'QrcodeDemo',
+        component: () => import('@/views/features/QrcodeDemo.vue'),
+        meta: { title: 'QRCode 二维码' },
+      },
+      {
+        path: 'features/crypto',
+        name: 'CryptoDemo',
+        component: () => import('@/views/features/CryptoDemo.vue'),
+        meta: { title: 'CryptoJS 加解密' },
+      },
+      {
+        path: 'features/jszip',
+        name: 'JszipDemo',
+        component: () => import('@/views/features/JszipDemo.vue'),
+        meta: { title: 'JSZip 打包下载' },
+      },
+      {
+        path: 'features/xlsx',
+        name: 'XlsxDemo',
+        component: () => import('@/views/features/XlsxDemo.vue'),
+        meta: { title: 'SheetJS Excel' },
+      },
+      {
+        path: 'features/papaparse',
+        name: 'PapaparseDemo',
+        component: () => import('@/views/features/PapaparseDemo.vue'),
+        meta: { title: 'PapaParse CSV' },
+      },
+      {
+        path: 'features/mock',
+        name: 'MockDemo',
+        component: () => import('@/views/features/MockDemo.vue'),
+        meta: { title: 'MockJS 模拟数据' },
+      },
+      {
+        path: 'features/nprogress',
+        name: 'NprogressDemo',
+        component: () => import('@/views/features/NprogressDemo.vue'),
+        meta: { title: 'NProgress 进度条' },
+      },
+      {
         path: 'features/dayjs',
         name: 'DayjsDemo',
         component: () => import('@/views/features/DayjsDemo.vue'),
@@ -413,6 +514,12 @@ export const staticRoutes: RouteRecordRaw[] = [
     name: 'Error500',
     component: () => import('@/views/error/Error500.vue'),
     meta: { title: '500' },
+  },
+  // catch-all 兜底：任何未声明的路径统一跳 404
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFoundCatchAll',
+    redirect: '/404',
   },
 ]
 

@@ -83,16 +83,29 @@ const pathTitleMap: Record<string, string> = {
   graph: 'menu.chartGraph',
 }
 
+/**
+ * 分组型路径段 (菜单分组容器，没有自己的页面)
+ * 这些段在面包屑里渲染为纯文字，不可点击，避免误导用户
+ */
+const GROUP_SEGMENTS = new Set([
+  'dashboard', 'system', 'content', 'components', 'charts',
+  'hooks', 'features', 'ui', 'permission', 'rules', 'third-party',
+])
+
 /** Generate breadcrumb items from current route path */
 const breadcrumbItems = computed(() => {
   const segments = route.path.split('/').filter(Boolean)
-  const items: Array<{ label: string; path: string }> = []
+  const items: Array<{ label: string; path: string; clickable: boolean }> = []
   let currentPath = ''
-  for (const segment of segments) {
+  for (let i = 0; i < segments.length; i++) {
+    const segment = segments[i]
     currentPath += `/${segment}`
     const i18nKey = pathTitleMap[segment]
     const label = i18nKey ? t(i18nKey) : segment
-    items.push({ label, path: currentPath })
+    const isLast = i === segments.length - 1
+    // 最后一段永远不可点击；分组型段也不可点击
+    const clickable = !isLast && !GROUP_SEGMENTS.has(segment)
+    items.push({ label, path: currentPath, clickable })
   }
   return items
 })
@@ -166,11 +179,18 @@ function handleLogout() {
   <div class="flex items-center justify-between h-full px-6">
     <!-- Left: Breadcrumb -->
     <NBreadcrumb>
-      <NBreadcrumbItem v-for="(item, index) in breadcrumbItems" :key="item.path">
-        <span v-if="index === breadcrumbItems.length - 1">{{ item.label }}</span>
-        <router-link v-else :to="item.path" style="text-decoration: none; color: inherit">
+      <NBreadcrumbItem v-for="item in breadcrumbItems" :key="item.path">
+        <router-link
+          v-if="item.clickable"
+          :to="item.path"
+          style="text-decoration: none; color: inherit"
+        >
           {{ item.label }}
         </router-link>
+        <span
+          v-else
+          :style="{ color: '#999', cursor: 'default' }"
+        >{{ item.label }}</span>
       </NBreadcrumbItem>
     </NBreadcrumb>
 

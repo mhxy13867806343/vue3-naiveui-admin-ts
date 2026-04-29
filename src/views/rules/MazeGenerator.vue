@@ -203,6 +203,26 @@ async function handleGenerate() {
   animationFrameId = requestAnimationFrame(animate)
 }
 
+/**
+ * 随机生成：随机算法 + 随机奇数尺寸 + 随机速度，一键变化
+ */
+function randomOdd(min: number, max: number): number {
+  const v = Math.floor(Math.random() * (max - min + 1)) + min
+  return ensureOdd(v)
+}
+
+async function handleRandomGenerate() {
+  if (isGenerating.value || isSolving.value) return
+  // 随机算法
+  selectedAlgorithm.value = Math.random() < 0.5 ? 'recursive-backtrack' : 'prim'
+  // 随机奇数尺寸（11~41，保证可观感）
+  rows.value = randomOdd(11, 41)
+  cols.value = randomOdd(11, 41)
+  // 随机速度（30~80）
+  speed.value = Math.floor(Math.random() * 51) + 30
+  await handleGenerate()
+}
+
 function handleSolve() {
   if (!maze.value || !mazeGenerated.value) return
   stopAnimation()
@@ -268,7 +288,11 @@ watch([rows, cols], () => {
 
 // --- Lifecycle ---
 onMounted(() => {
-  nextTick(() => clearCanvas())
+  nextTick(() => {
+    clearCanvas()
+    // 进入页面后自动随机生成一个迷宫，避免初始全黑
+    handleRandomGenerate()
+  })
 })
 
 onUnmounted(() => {
@@ -380,6 +404,13 @@ onUnmounted(() => {
             @click="handleGenerate"
           >
             {{ t('rules.generate') }}
+          </NButton>
+          <NButton
+            type="warning"
+            :disabled="isGenerating || isSolving"
+            @click="handleRandomGenerate"
+          >
+            🎲 随机生成
           </NButton>
           <NButton
             type="info"
