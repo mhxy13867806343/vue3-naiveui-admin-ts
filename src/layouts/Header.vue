@@ -1,22 +1,31 @@
 <script setup lang="ts">
 /**
  * 顶部栏组件
- * 左侧面包屑导航 + 右侧用户名、退出登录按钮、语言切换器
+ * 左侧面包屑导航 + 右侧用户名、主题切换、全屏按钮、语言切换器、退出登录按钮
  */
 import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { NButton, NDropdown, NSpace, NBreadcrumb, NBreadcrumbItem } from 'naive-ui'
+import {
+  NButton, NDropdown, NSpace, NBreadcrumb, NBreadcrumbItem, NTooltip,
+  useDialog,
+} from 'naive-ui'
 import { useAuthStore } from '@/stores/auth'
 import { usePermissionStore } from '@/stores/permission'
 import { resetRoutes } from '@/router/dynamic-router'
 import { setLocale } from '@/locales'
+import { useThemeMode } from '@/composables/useThemeMode'
+import { useFullscreen } from '@/composables/useFullscreen'
 
 const router = useRouter()
 const route = useRoute()
 const { t, locale } = useI18n()
 const authStore = useAuthStore()
 const permissionStore = usePermissionStore()
+const dialog = useDialog()
+
+const { themeMode, setThemeMode } = useThemeMode()
+const { isFullscreen, toggleFullscreen } = useFullscreen()
 
 const username = computed(() => authStore.username || 'User')
 
@@ -104,12 +113,52 @@ function handleLanguageSelect(key: string) {
   setLocale(key as 'zh-CN' | 'en-US')
 }
 
-/** 退出登录 */
+/** 主题切换选项 */
+const themeOptions = computed(() => [
+  { label: `☀️ ${t('header.themeLight')}`, key: 'light' },
+  { label: `🌙 ${t('header.themeDark')}`, key: 'dark' },
+  { label: `💻 ${t('header.themeSystem')}`, key: 'system' },
+])
+
+/** 当前主题模式图标 */
+const currentThemeIcon = computed(() => {
+  switch (themeMode.value) {
+    case 'dark': return '🌙'
+    case 'system': return '💻'
+    case 'light':
+    default: return '☀️'
+  }
+})
+
+/** 切换主题 */
+function handleThemeSelect(key: string) {
+  setThemeMode(key as 'light' | 'dark' | 'system')
+}
+
+/** 全屏按钮提示文字 */
+const fullscreenTooltip = computed(() => {
+  return isFullscreen.value ? t('header.exitFullscreen') : t('header.fullscreen')
+})
+
+/** 全屏按钮图标 */
+const fullscreenIcon = computed(() => {
+  return isFullscreen.value ? '⛶' : '⛶'
+})
+
+/** 退出登录（带确认弹窗） */
 function handleLogout() {
-  authStore.logout()
-  permissionStore.clearPermissions()
-  resetRoutes(router)
-  router.push('/login')
+  dialog.warning({
+    title: t('header.logoutTitle'),
+    content: t('header.logoutConfirm'),
+    positiveText: t('common.confirm'),
+    negativeText: t('common.cancel'),
+    onPositiveClick: () => {
+      authStore.logout()
+      permissionStore.clearPermissions()
+      resetRoutes(router)
+      router.push('/login')
+    },
+  })
 }
 </script>
 
@@ -126,9 +175,32 @@ function handleLogout() {
     </NBreadcrumb>
 
     <!-- Right: User actions -->
+    <!-- Layout order: 用户名 → 主题切换 → 全屏按钮 → 语言切换 → 退出登录 -->
     <NSpace align="center" :size="16">
       <span class="text-sm">{{ username }}</span>
 
+      <!-- Theme Switcher -->
+      <NDropdown
+        :options="themeOptions"
+        @select="handleThemeSelect"
+        trigger="click"
+      >
+        <NButton quaternary size="small">
+          {{ currentThemeIcon }}
+        </NButton>
+      </NDropdown>
+
+      <!-- Fullscreen Toggle -->
+      <NTooltip trigger="hover">
+        <template #trigger>
+          <NButton quaternary size="small" @click="toggleFullscreen">
+            {{ fullscreenIcon }}
+          </NButton>
+        </template>
+        {{ fullscreenTooltip }}
+      </NTooltip>
+
+      <!-- Language Switcher -->
       <NDropdown
         :options="languageOptions"
         @select="handleLanguageSelect"
@@ -139,6 +211,7 @@ function handleLogout() {
         </NButton>
       </NDropdown>
 
+      <!-- Logout -->
       <NButton quaternary size="small" @click="handleLogout">
         {{ t('header.logout') }}
       </NButton>

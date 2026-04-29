@@ -220,6 +220,27 @@ const menuOptions = computed<MenuOption[]>(() => [
     children: [
       { label: () => t('menu.permissionConfig'), key: '/permission-management' },
       { label: () => t('menu.permissionDemo'), key: '/permission/demo' },
+      {
+        label: () => t('menu.httpStatus'),
+        key: 'http-status',
+        children: [
+          { label: () => '200 OK', key: '/permission/http-200' },
+          { label: () => '202 Accepted', key: '/permission/http-202' },
+          { label: () => '204 No Content', key: '/permission/http-204' },
+          { label: () => '300 Multiple Choices', key: '/permission/http-300' },
+          { label: () => '302 Found', key: '/permission/http-302' },
+          { label: () => '400 Bad Request', key: '/permission/http-400' },
+          { label: () => '401 Unauthorized', key: '/permission/http-401' },
+          { label: () => '402 Payment Required', key: '/permission/http-402' },
+          { label: () => '403 Forbidden', key: '/permission/http-403' },
+          { label: () => '404 Not Found', key: '/permission/http-404' },
+          { label: () => '500 Server Error', key: '/permission/http-500' },
+          { label: () => '501 Not Implemented', key: '/permission/http-501' },
+          { label: () => '502 Bad Gateway', key: '/permission/http-502' },
+          { label: () => '503 Unavailable', key: '/permission/http-503' },
+          { label: () => '504 Timeout', key: '/permission/http-504' },
+        ],
+      },
     ],
   },
   {

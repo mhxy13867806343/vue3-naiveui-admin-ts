@@ -1,101 +1,371 @@
 <script setup lang="ts">
 /**
  * 角色管理页面
- * 角色列表：ID、角色名称、角色标识、描述、状态、创建时间、操作
+ * 完整 CRUD：角色列表、新增/编辑角色、删除确认、权限配置
  */
-import { h } from 'vue'
+import { ref, computed, h, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { NDataTable, NButton, NSpace, NTag } from 'naive-ui'
-import type { DataTableColumns } from 'naive-ui'
-import CodePreview from '@/components/common/CodePreview.vue'
+import {
+  NDataTable,
+  NButton,
+  NSpace,
+  NTag,
+  NModal,
+  NForm,
+  NFormItem,
+  NInput,
+  NSwitch,
+  NTree,
+  useDialog,
+  useMessage,
+  type FormInst,
+  type FormRules,
+  type DataTableColumns,
+  type TreeOption,
+} from 'naive-ui'
+import { apiGetRoles, apiCreateRole, apiUpdateRole, apiDeleteRole, apiUpdateRolePermission } from '@/api'
+import { allPermissions } from '@/api/mock/role'
+import { useLoading } from '@/composables/useLoading'
+import type { RoleItem, RoleFormData } from '@/types'
 
 const { t } = useI18n()
+const dialog = useDialog()
+const message = useMessage()
+const { loading, run } = useLoading()
 
-interface RoleRow {
-  key: number
-  id: number
-  name: string
-  code: string
-  description: string
-  permCount: number
-  userCount: number
-  status: '启用' | '禁用'
-  createTime: string
+// --- Role list state ---
+const roles = ref<RoleItem[]>([])
+
+// --- Form dialog state ---
+const showFormModal = ref(false)
+const editingRole = ref<RoleItem | null>(null)
+const formRef = ref<FormInst | null>(null)
+const formData = ref<RoleFormData>({
+  name: '',
+  code: '',
+  description: '',
+  status: 'enabled',
+})
+
+const isEditing = computed(() => editingRole.value !== null)
+const formTitle = computed(() => (isEditing.value ? t('role.editRole') : t('role.addRole')))
+
+const formRules: FormRules = {
+  name: [{ required: true, message: () => t('role.nameRequired'), trigger: 'blur' }],
+  code: [{ required: true, message: () => t('role.codeRequired'), trigger: 'blur' }],
 }
 
-const columns: DataTableColumns<RoleRow> = [
+// --- Permission dialog state ---
+const showPermModal = ref(false)
+const currentPermRole = ref<RoleItem | null>(null)
+const checkedPermKeys = ref<string[]>([])
+
+/** Build permission tree from flat allPermissions list */
+const permissionTreeOptions = computed<TreeOption[]>(() => {
+  const map = new Map<string, TreeOption>()
+
+  for (const perm of allPermissions) {
+    const parts = perm.split(':')
+    const topKey = parts[0]
+
+    if (!map.has(topKey)) {
+      map.set(topKey, {
+        key: topKey,
+        label: topKey,
+        children: [],
+      })
+    }
+
+    const parent = map.get(topKey)!
+
+    if (parts.length === 2) {
+      ;(parent.children as TreeOption[]).push({
+        key: perm,
+        label: perm,
+      })
+    } else if (parts.length >= 3) {
+      const midKey = `${parts[0]}:${parts[1]}`
+      let midNode = (parent.children as TreeOption[]).find((c) => c.key === midKey)
+      if (!midNode) {
+        midNode = { key: midKey, label: midKey, children: [] }
+        ;(parent.children as TreeOption[]).push(midNode)
+      }
+      ;(midNode.children as TreeOption[]).push({
+        key: perm,
+        label: perm,
+      })
+    }
+  }
+
+  return Array.from(map.values())
+})
+
+// --- Table columns ---
+const columns = computed<DataTableColumns<RoleItem>>(() => [
   { title: 'ID', key: 'id', width: 60 },
   {
-    title: '角色名称',
+    title: t('role.roleName'),
     key: 'name',
     width: 140,
     render(row) {
       return h(NTag, { type: 'primary', bordered: false }, { default: () => row.name })
     },
   },
-  { title: '角色标识', key: 'code', width: 120 },
-  { title: '描述', key: 'description', ellipsis: { tooltip: true } },
-  { title: '权限数', key: 'permCount', width: 80 },
-  { title: '用户数', key: 'userCount', width: 80 },
+  { title: t('role.roleCode'), key: 'code', width: 120 },
+  { title: t('role.description'), key: 'description', ellipsis: { tooltip: true } },
   {
-    title: '状态',
-    key: 'status',
+    title: t('role.permCount'),
+    key: 'permCount',
     width: 80,
+  },
+  {
+    title: t('role.userCount'),
+    key: 'userCount',
+    width: 80,
+  },
+  {
+    title: t('role.status'),
+    key: 'status',
+    width: 100,
     render(row) {
-      return h(NTag, { type: row.status === '启用' ? 'success' : 'error', size: 'small' }, { default: () => row.status })
+      return h(
+        NTag,
+        { type: row.status === 'enabled' ? 'success' : 'error', size: 'small' },
+        { default: () => (row.status === 'enabled' ? t('role.enabled') : t('role.disabled')) },
+      )
     },
   },
-  { title: '创建时间', key: 'createTime', width: 120 },
+  { title: 'Create Time', key: 'createTime', width: 120 },
   {
     title: '操作',
     key: 'actions',
-    width: 200,
-    render() {
+    width: 220,
+    render(row) {
       return h(NSpace, { size: 4 }, {
         default: () => [
-          h(NButton, { size: 'small', type: 'primary', quaternary: true }, { default: () => t('common.edit') }),
-          h(NButton, { size: 'small', type: 'warning', quaternary: true }, { default: () => '权限' }),
-          h(NButton, { size: 'small', type: 'error', quaternary: true }, { default: () => t('common.delete') }),
+          h(
+            NButton,
+            { size: 'small', type: 'primary', quaternary: true, onClick: () => handleEdit(row) },
+            { default: () => t('common.edit') },
+          ),
+          h(
+            NButton,
+            { size: 'small', type: 'warning', quaternary: true, onClick: () => handleOpenPermissions(row) },
+            { default: () => t('role.permissions') },
+          ),
+          h(
+            NButton,
+            { size: 'small', type: 'error', quaternary: true, onClick: () => handleDelete(row) },
+            { default: () => t('common.delete') },
+          ),
         ],
       })
     },
   },
-]
+])
 
-const data: RoleRow[] = [
-  { key: 1, id: 1, name: '超级管理员', code: 'super_admin', description: '拥有系统所有权限，可管理所有模块', permCount: 32, userCount: 2, status: '启用', createTime: '2024-01-01' },
-  { key: 2, id: 2, name: '管理员', code: 'admin', description: '拥有大部分管理权限，不可修改系统配置', permCount: 24, userCount: 5, status: '启用', createTime: '2024-01-01' },
-  { key: 3, id: 3, name: '编辑', code: 'editor', description: '可管理内容模块，包括文章、分类、标签', permCount: 12, userCount: 8, status: '启用', createTime: '2024-01-05' },
-  { key: 4, id: 4, name: '普通用户', code: 'user', description: '仅有基础浏览权限', permCount: 6, userCount: 120, status: '启用', createTime: '2024-01-05' },
-  { key: 5, id: 5, name: '访客', code: 'viewer', description: '只读权限，仅可查看公开内容', permCount: 3, userCount: 500, status: '禁用', createTime: '2024-02-01' },
-]
-
-const code = `interface RoleRow {
-  id: number; name: string; code: string; description: string
-  permCount: number; userCount: number; status: '启用' | '禁用'; createTime: string
+// --- Data loading ---
+async function loadRoles() {
+  try {
+    const res = await run(() => apiGetRoles())
+    if (res.code === 200 && res.data) {
+      roles.value = res.data
+    }
+  } catch {
+    message.error(t('role.operationFailed'))
+  }
 }
 
-const columns: DataTableColumns<RoleRow> = [
-  { title: 'ID', key: 'id' },
-  { title: '角色名称', key: 'name', render(row) { return h(NTag, ...) } },
-  { title: '角色标识', key: 'code' },
-  { title: '描述', key: 'description' },
-  { title: '状态', key: 'status', render(row) { return h(NTag, ...) } },
-  { title: '操作', key: 'actions', render() { ... } },
-]
+// --- Add role ---
+function handleAdd() {
+  editingRole.value = null
+  formData.value = { name: '', code: '', description: '', status: 'enabled' }
+  showFormModal.value = true
+}
 
-<NDataTable :columns="columns" :data="data" />`
+// --- Edit role ---
+function handleEdit(row: RoleItem) {
+  editingRole.value = row
+  formData.value = {
+    name: row.name,
+    code: row.code,
+    description: row.description,
+    status: row.status,
+  }
+  showFormModal.value = true
+}
+
+// --- Submit form (create or update) ---
+async function handleFormSubmit() {
+  try {
+    await formRef.value?.validate()
+  } catch {
+    return
+  }
+
+  try {
+    if (isEditing.value) {
+      const res = await apiUpdateRole({ id: editingRole.value!.id, ...formData.value })
+      if (res.code === 200) {
+        message.success(t('role.updateSuccess'))
+        showFormModal.value = false
+        await loadRoles()
+      } else {
+        message.error(t('role.operationFailed'))
+      }
+    } else {
+      const res = await apiCreateRole(formData.value)
+      if (res.code === 200) {
+        message.success(t('role.createSuccess'))
+        showFormModal.value = false
+        await loadRoles()
+      } else {
+        message.error(t('role.operationFailed'))
+      }
+    }
+  } catch {
+    message.error(t('role.operationFailed'))
+  }
+}
+
+// --- Delete role ---
+function handleDelete(row: RoleItem) {
+  dialog.warning({
+    title: t('common.tip'),
+    content: t('role.deleteConfirm', { name: row.name }),
+    positiveText: t('common.confirm'),
+    negativeText: t('common.cancel'),
+    onPositiveClick: async () => {
+      try {
+        const res = await apiDeleteRole(row.id)
+        if (res.code === 200) {
+          message.success(t('role.deleteSuccess'))
+          await loadRoles()
+        } else {
+          message.error(t('role.operationFailed'))
+        }
+      } catch {
+        message.error(t('role.operationFailed'))
+      }
+    },
+  })
+}
+
+// --- Permission configuration ---
+function handleOpenPermissions(row: RoleItem) {
+  currentPermRole.value = row
+  checkedPermKeys.value = row.permissions ? [...row.permissions] : []
+  showPermModal.value = true
+}
+
+async function handlePermSubmit() {
+  if (!currentPermRole.value) return
+
+  try {
+    const res = await apiUpdateRolePermission(currentPermRole.value.id, checkedPermKeys.value)
+    if (res.code === 200) {
+      message.success(t('role.permUpdateSuccess'))
+      showPermModal.value = false
+      await loadRoles()
+    } else {
+      message.error(t('role.operationFailed'))
+    }
+  } catch {
+    message.error(t('role.operationFailed'))
+  }
+}
+
+// --- Init ---
+onMounted(() => {
+  loadRoles()
+})
 </script>
 
 <template>
   <div>
     <h2 class="text-xl font-semibold mb-4">{{ t('menu.roleManagement') }}</h2>
 
-    <CodePreview title="角色列表" description="使用 NDataTable 展示角色信息，包含角色标识、权限数量、状态和操作按钮" :code="code">
-      <NSpace style="margin-bottom: 16px">
-        <NButton type="primary">➕ {{ t('common.add') }}</NButton>
-      </NSpace>
-      <NDataTable :columns="columns" :data="data" :bordered="false" />
-    </CodePreview>
+    <!-- Toolbar -->
+    <NSpace style="margin-bottom: 16px">
+      <NButton type="primary" @click="handleAdd">
+        ➕ {{ t('role.addRole') }}
+      </NButton>
+    </NSpace>
+
+    <!-- Role table -->
+    <NDataTable
+      :columns="columns"
+      :data="roles"
+      :loading="loading"
+      :bordered="false"
+      :row-key="(row: RoleItem) => row.id"
+    />
+
+    <!-- Add/Edit form modal -->
+    <NModal
+      v-model:show="showFormModal"
+      preset="dialog"
+      :title="formTitle"
+      :positive-text="t('common.confirm')"
+      :negative-text="t('common.cancel')"
+      @positive-click="handleFormSubmit"
+      style="width: 500px"
+    >
+      <NForm
+        ref="formRef"
+        :model="formData"
+        :rules="formRules"
+        label-placement="left"
+        label-width="100"
+        style="margin-top: 16px"
+      >
+        <NFormItem :label="t('role.roleName')" path="name">
+          <NInput v-model:value="formData.name" :placeholder="t('role.nameRequired')" />
+        </NFormItem>
+        <NFormItem :label="t('role.roleCode')" path="code">
+          <NInput v-model:value="formData.code" :placeholder="t('role.codeRequired')" />
+        </NFormItem>
+        <NFormItem :label="t('role.description')" path="description">
+          <NInput
+            v-model:value="formData.description"
+            type="textarea"
+            :rows="3"
+          />
+        </NFormItem>
+        <NFormItem :label="t('role.status')" path="status">
+          <NSwitch
+            :value="formData.status === 'enabled'"
+            @update:value="(val: boolean) => (formData.status = val ? 'enabled' : 'disabled')"
+          >
+            <template #checked>{{ t('role.enabled') }}</template>
+            <template #unchecked>{{ t('role.disabled') }}</template>
+          </NSwitch>
+        </NFormItem>
+      </NForm>
+    </NModal>
+
+    <!-- Permission configuration modal -->
+    <NModal
+      v-model:show="showPermModal"
+      preset="dialog"
+      :title="t('role.permissions') + (currentPermRole ? ` - ${currentPermRole.name}` : '')"
+      :positive-text="t('common.confirm')"
+      :negative-text="t('common.cancel')"
+      @positive-click="handlePermSubmit"
+      style="width: 600px"
+    >
+      <div style="max-height: 400px; overflow-y: auto; margin-top: 16px">
+        <NTree
+          :data="permissionTreeOptions"
+          checkable
+          cascade
+          selectable
+          block-line
+          default-expand-all
+          :checked-keys="checkedPermKeys"
+          @update:checked-keys="(keys: string[]) => (checkedPermKeys = keys)"
+        />
+      </div>
+    </NModal>
   </div>
 </template>

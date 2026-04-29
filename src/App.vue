@@ -8,17 +8,23 @@ import {
   NDialogProvider,
   NNotificationProvider,
   NLoadingBarProvider,
+  NConfigProvider,
 } from 'naive-ui'
+import { useThemeMode } from '@/composables/useThemeMode'
+
+const { naiveTheme } = useThemeMode()
 </script>
 
 <template>
-  <NLoadingBarProvider>
-    <NDialogProvider>
-      <NNotificationProvider>
-        <NMessageProvider>
-          <router-view />
-        </NMessageProvider>
-      </NNotificationProvider>
-    </NDialogProvider>
-  </NLoadingBarProvider>
+  <NConfigProvider :theme="naiveTheme">
+    <NLoadingBarProvider>
+      <NDialogProvider>
+        <NNotificationProvider>
+          <NMessageProvider>
+            <router-view />
+          </NMessageProvider>
+        </NNotificationProvider>
+      </NDialogProvider>
+    </NLoadingBarProvider>
+  </NConfigProvider>
 </template>

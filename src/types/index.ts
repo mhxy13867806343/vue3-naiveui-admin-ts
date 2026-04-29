@@ -73,3 +73,81 @@ export interface MockResponse<T> {
   message: string
   data: T
 }
+
+// 角色管理
+
+/** 角色实体 */
+export interface RoleItem {
+  id: number
+  name: string
+  code: string
+  description: string
+  status: 'enabled' | 'disabled'
+  permCount: number
+  userCount: number
+  permissions: string[]
+  createTime: string
+}
+
+/** 角色表单数据 */
+export interface RoleFormData {
+  name: string
+  code: string
+  description: string
+  status: 'enabled' | 'disabled'
+}
+
+// 主题模式
+
+export type ThemeMode = 'light' | 'dark' | 'system'
+
+// 迷宫
+
+export type CellType = 'wall' | 'passage' | 'start' | 'end' | 'path' | 'visited'
+
+export interface MazeGrid {
+  rows: number
+  cols: number
+  cells: CellType[][]
+}
+
+export interface MazeStep {
+  row: number
+  col: number
+  type: CellType
+}
+
+export type MazeAlgorithm = 'recursive-backtrack' | 'prim'
+export type SolveAlgorithm = 'bfs' | 'dfs'
+
+// 排序
+
+export interface SortStep {
+  array: number[]
+  comparing: [number, number]
+  swapping: [number, number] | null
+}
+
+export type SortAlgorithm = 'bubble' | 'quick' | 'merge' | 'insertion'
+
+// 生命游戏
+
+export type Grid = boolean[][]
+
+export interface GameOfLifePreset {
+  name: string
+  i18nKey: string
+  pattern: boolean[][]
+  offset: { row: number; col: number }
+}
+
+// HTTP 状态码
+
+export interface HttpStatusConfig {
+  code: number
+  name: string
+  i18nKey: string
+  type: 'success' | 'info' | 'warning' | 'error'
+  showReLoginButton?: boolean
+  showBackHomeButton?: boolean
+}

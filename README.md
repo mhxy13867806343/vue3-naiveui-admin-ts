@@ -1,3 +1,5 @@
+[English](./README.en.md) | 中文
+
 # Vue3 Naive UI Admin TS
 
 基于 Vue 3 + TypeScript + Vite 8 + Naive UI 的后台管理系统模板。
@@ -15,7 +17,7 @@
 | vue-i18n | 11+ | 国际化（中文/英文） |
 | Axios | 1.9+ | HTTP 请求 |
 | Tailwind CSS | 4.2+ | 原子化 CSS |
-| ECharts | - | 数据可视化图表 |
+| ECharts | 6.0+ | 数据可视化图表 |
 | MockJS | 1.1+ | Mock 数据模拟 |
 
 ## ✨ 功能特性
@@ -28,12 +30,18 @@
 - 📦 **自动导入** — unplugin-auto-import + unplugin-vue-components
 - 🗂 **Mock 数据** — MockJS 模拟接口，环境变量控制开关
 - 🔧 **工具库** — dayjs / lodash-es 封装，通用验证规则
-- 📊 **图表组件** — ECharts / G2 封装（预留）
-- 🧩 **第三方组件** — 富文本编辑器 / 拖拽列表封装（预留）
+- 📊 **图表组件** — ECharts 封装，折线图 / 柱状图 / 饼图 / 雷达图
+- 🧩 **第三方组件** — 富文本编辑器 / 拖拽列表封装
 - 🏗 **构建优化** — gzip + brotli 压缩，分包策略，terser 压缩
 - 📐 **代码规范** — ESLint + Prettier
+- 📋 **CRUD 管理** — 用户 / 菜单 / 部门 / 文章 / 分类 / 标签完整增删改查
 
-## 📦 安装
+## � 截图
+
+<!-- 在此添加项目截图 -->
+> 截图待补充
+
+## �📦 快速开始
 
 ```bash
 # 克隆项目
@@ -99,13 +107,15 @@ src/
 │   ├── login/              # 登录页（5套模板）
 │   ├── register/           # 注册页（5套模板）
 │   ├── dashboard/          # 仪表盘
+│   ├── system/             # 系统管理（用户/菜单/部门）
+│   ├── content/            # 内容管理（文章/分类/标签）
 │   ├── permission/         # 权限管理
 │   └── error/              # 错误页面（401/403/404/500）
 ├── App.vue                 # 根组件
 └── main.ts                 # 入口文件
 ```
 
-## 🛠 命令
+## 🛠 可用命令
 
 ```bash
 pnpm dev            # 启动开发服务器 (localhost:3100)

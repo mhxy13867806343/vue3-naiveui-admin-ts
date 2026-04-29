@@ -56,8 +56,8 @@ const code = `<NDescriptions label-placement="left" bordered :column="2">
 
     <CodePreview title="相关链接" description="项目仓库和文档链接" :code="`<NButton tag='a' href='...' target='_blank'>GitHub</NButton>`">
       <NSpace>
-        <NButton tag="a" href="https://github.com" target="_blank" type="primary">🐙 GitHub</NButton>
-        <NButton tag="a" href="https://gitee.com" target="_blank" type="warning">🟠 Gitee</NButton>
+        <NButton tag="a" href="https://github.com/mhxy13867806343/vue3-naiveui-admin-ts" target="_blank" type="primary">🐙 GitHub项目地址</NButton>
+        <NButton tag="a" href="https://gitee.com/fangjiayu/vue3-naiveui-admin-ts" target="_blank" type="warning">🟠 Gitee项目地址</NButton>
         <NButton tag="a" href="https://www.naiveui.com" target="_blank" type="info">📚 Naive UI 文档</NButton>
         <NButton tag="a" href="https://vuejs.org" target="_blank" type="success">💚 Vue.js 官网</NButton>
       </NSpace>

@@ -340,6 +340,22 @@ export const staticRoutes: RouteRecordRaw[] = [
         component: () => import('@/views/permission/PermissionDemo.vue'),
         meta: { title: '权限演示' },
       },
+      // HTTP Status Code Pages
+      { path: 'permission/http-200', name: 'Http200', component: () => import('@/views/error/Error200.vue'), meta: { title: '200 OK' } },
+      { path: 'permission/http-202', name: 'Http202', component: () => import('@/views/error/Error202.vue'), meta: { title: '202 Accepted' } },
+      { path: 'permission/http-204', name: 'Http204', component: () => import('@/views/error/Error204.vue'), meta: { title: '204 No Content' } },
+      { path: 'permission/http-300', name: 'Http300', component: () => import('@/views/error/Error300.vue'), meta: { title: '300 Multiple Choices' } },
+      { path: 'permission/http-302', name: 'Http302', component: () => import('@/views/error/Error302.vue'), meta: { title: '302 Found' } },
+      { path: 'permission/http-400', name: 'Http400', component: () => import('@/views/error/Error400.vue'), meta: { title: '400 Bad Request' } },
+      { path: 'permission/http-401', name: 'Http401', component: () => import('@/views/error/Error401.vue'), meta: { title: '401 Unauthorized' } },
+      { path: 'permission/http-402', name: 'Http402', component: () => import('@/views/error/Error402.vue'), meta: { title: '402 Payment Required' } },
+      { path: 'permission/http-403', name: 'Http403', component: () => import('@/views/error/Error403.vue'), meta: { title: '403 Forbidden' } },
+      { path: 'permission/http-404', name: 'Http404', component: () => import('@/views/error/Error404.vue'), meta: { title: '404 Not Found' } },
+      { path: 'permission/http-500', name: 'Http500', component: () => import('@/views/error/Error500.vue'), meta: { title: '500 Server Error' } },
+      { path: 'permission/http-501', name: 'Http501', component: () => import('@/views/error/Error501.vue'), meta: { title: '501 Not Implemented' } },
+      { path: 'permission/http-502', name: 'Http502', component: () => import('@/views/error/Error502.vue'), meta: { title: '502 Bad Gateway' } },
+      { path: 'permission/http-503', name: 'Http503', component: () => import('@/views/error/Error503.vue'), meta: { title: '503 Unavailable' } },
+      { path: 'permission/http-504', name: 'Http504', component: () => import('@/views/error/Error504.vue'), meta: { title: '504 Timeout' } },
       // About
       {
         path: 'about',
