@@ -1,0 +1,114 @@
+/**
+ * 全局样式入口
+ * 引入 CSS 变量和工具类，提供基础重置样式
+ */
+
+/* 引入设计令牌和工具类 */
+@import 'tailwindcss';
+@import './variables.css';
+@import './utilities.css';
+
+/* ========== CSS Reset / Normalize ========== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  color: var(--color-text-base);
+  background-color: var(--color-bg-page);
+  line-height: var(--line-height-base);
+  min-height: 100vh;
+}
+
+/* ========== 基础元素重置 ========== */
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+}
+
+code,
+pre {
+  font-family: var(--font-family-mono);
+}
+
+/* ========== 滚动条样式 ========== */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-border-base);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-border-dark);
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* ========== 应用根节点 ========== */
+
+#app {
+  min-height: 100vh;
+}
