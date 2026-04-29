@@ -136,31 +136,73 @@ const menuOptions = computed<MenuOption[]>(() => [
     key: 'charts',
     icon: () => h(NIcon, null, { default: () => h('span', '📈') }),
     children: [
-      { label: () => t('menu.chartLine'), key: '/charts/line' },
-      { label: () => t('menu.chartArea'), key: '/charts/area' },
-      { label: () => t('menu.chartBar'), key: '/charts/bar' },
-      { label: () => t('menu.chartHorizontalBar'), key: '/charts/horizontal-bar' },
-      { label: () => t('menu.chartPie'), key: '/charts/pie' },
-      { label: () => t('menu.chartDoughnut'), key: '/charts/doughnut' },
-      { label: () => t('menu.chartScatter'), key: '/charts/scatter' },
-      { label: () => t('menu.chartRadar'), key: '/charts/radar' },
-      { label: () => t('menu.chartFunnel'), key: '/charts/funnel' },
-      { label: () => t('menu.chartGauge'), key: '/charts/gauge' },
-      { label: () => t('menu.chartHeatmap'), key: '/charts/heatmap' },
-      { label: () => t('menu.chartTreemap'), key: '/charts/treemap' },
-      { label: () => t('menu.chartSunburst'), key: '/charts/sunburst' },
-      { label: () => t('menu.chartSankey'), key: '/charts/sankey' },
-      { label: () => t('menu.chartCandlestick'), key: '/charts/candlestick' },
-      { label: () => t('menu.chartBoxplot'), key: '/charts/boxplot' },
-      { label: () => t('menu.chartWaterfall'), key: '/charts/waterfall' },
-      { label: () => t('menu.chartMixed'), key: '/charts/mixed' },
-      { label: () => t('menu.chartStackedBar'), key: '/charts/stacked-bar' },
-      { label: () => t('menu.chartStackedArea'), key: '/charts/stacked-area' },
-      { label: () => t('menu.chartPolar'), key: '/charts/polar' },
-      { label: () => t('menu.chartRose'), key: '/charts/rose' },
-      { label: () => t('menu.chartParallel'), key: '/charts/parallel' },
-      { label: () => t('menu.chartThemeRiver'), key: '/charts/theme-river' },
-      { label: () => t('menu.chartGraph'), key: '/charts/graph' },
+      {
+        label: () => t('menu.chartGroupBasic'),
+        key: 'charts-basic',
+        children: [
+          { label: () => t('menu.chartLine'), key: '/charts/line' },
+          { label: () => t('menu.chartArea'), key: '/charts/area' },
+          { label: () => t('menu.chartBar'), key: '/charts/bar' },
+          { label: () => t('menu.chartHorizontalBar'), key: '/charts/horizontal-bar' },
+          { label: () => t('menu.chartPie'), key: '/charts/pie' },
+          { label: () => t('menu.chartDoughnut'), key: '/charts/doughnut' },
+          { label: () => t('menu.chartRose'), key: '/charts/rose' },
+        ],
+      },
+      {
+        label: () => t('menu.chartGroupStat'),
+        key: 'charts-stat',
+        children: [
+          { label: () => t('menu.chartScatter'), key: '/charts/scatter' },
+          { label: () => t('menu.chartRadar'), key: '/charts/radar' },
+          { label: () => t('menu.chartBoxplot'), key: '/charts/boxplot' },
+          { label: () => t('menu.chartHeatmap'), key: '/charts/heatmap' },
+          { label: () => t('menu.chartParallel'), key: '/charts/parallel' },
+        ],
+      },
+      {
+        label: () => t('menu.chartGroupHierarchy'),
+        key: 'charts-hierarchy',
+        children: [
+          { label: () => t('menu.chartTreemap'), key: '/charts/treemap' },
+          { label: () => t('menu.chartSunburst'), key: '/charts/sunburst' },
+          { label: () => t('menu.chartSankey'), key: '/charts/sankey' },
+          { label: () => t('menu.chartGraph'), key: '/charts/graph' },
+          { label: () => t('menu.chartThemeRiver'), key: '/charts/theme-river' },
+        ],
+      },
+      {
+        label: () => t('menu.chartGroupAdvanced'),
+        key: 'charts-advanced',
+        children: [
+          { label: () => t('menu.chartFunnel'), key: '/charts/funnel' },
+          { label: () => t('menu.chartGauge'), key: '/charts/gauge' },
+          { label: () => t('menu.chartCandlestick'), key: '/charts/candlestick' },
+          { label: () => t('menu.chartWaterfall'), key: '/charts/waterfall' },
+          { label: () => t('menu.chartMixed'), key: '/charts/mixed' },
+          { label: () => t('menu.chartStackedBar'), key: '/charts/stacked-bar' },
+          { label: () => t('menu.chartStackedArea'), key: '/charts/stacked-area' },
+          { label: () => t('menu.chartPolar'), key: '/charts/polar' },
+        ],
+      },
+      {
+        label: () => t('menu.chartGroupG2'),
+        key: 'charts-g2',
+        children: [
+          { label: () => 'G2 折线图', key: '/charts/g2-line' },
+          { label: () => 'G2 柱状图', key: '/charts/g2-bar' },
+          { label: () => 'G2 高级散点图', key: '/charts/g2-scatter' },
+        ],
+      },
+      {
+        label: () => t('menu.chartGroupG6'),
+        key: 'charts-g6',
+        children: [
+          { label: () => 'G6 关系图', key: '/charts/g6-graph' },
+          { label: () => 'G6 组织树', key: '/charts/g6-org' },
+          { label: () => 'G6 赛事对阵图', key: '/charts/g6-bracket' },
+        ],
+      },
     ],
   },
   {
@@ -266,6 +308,71 @@ const menuOptions = computed<MenuOption[]>(() => [
           { label: () => '502 Bad Gateway', key: '/permission/http-502' },
           { label: () => '503 Unavailable', key: '/permission/http-503' },
           { label: () => '504 Timeout', key: '/permission/http-504' },
+        ],
+      },
+    ],
+  },
+  {
+    label: () => t('menu.multiLevel'),
+    key: 'multi-level',
+    icon: () => h(NIcon, null, { default: () => h('span', '🌲') }),
+    children: [
+      { label: () => '1-1', key: '/multi-level/1-1' },
+      {
+        label: () => '1-2',
+        key: 'multi-level-1-2',
+        children: [
+          { label: () => '1-2-1', key: '/multi-level/1-2-1' },
+        ],
+      },
+      {
+        label: () => '1-3',
+        key: 'multi-level-1-3',
+        children: [
+          { label: () => '1-3-1', key: '/multi-level/1-3-1' },
+          {
+            label: () => '1-3-2',
+            key: 'multi-level-1-3-2',
+            children: [
+              { label: () => '1-3-2-1', key: '/multi-level/1-3-2-1' },
+            ],
+          },
+        ],
+      },
+      {
+        label: () => '1-4',
+        key: 'multi-level-1-4',
+        children: [
+          { label: () => '1-4-1', key: '/multi-level/1-4-1' },
+          {
+            label: () => '1-4-2',
+            key: 'multi-level-1-4-2',
+            children: [
+              { label: () => '1-4-2-1', key: '/multi-level/1-4-2-1' },
+              { label: () => '1-4-2-2', key: '/multi-level/1-4-2-2' },
+            ],
+          },
+        ],
+      },
+      {
+        label: () => '1-5',
+        key: 'multi-level-1-5',
+        children: [
+          {
+            label: () => '1-5-1',
+            key: 'multi-level-1-5-1',
+            children: [
+              { label: () => '1-5-1-1', key: '/multi-level/1-5-1-1' },
+            ],
+          },
+          {
+            label: () => '1-5-2',
+            key: 'multi-level-1-5-2',
+            children: [
+              { label: () => '1-5-2-1', key: '/multi-level/1-5-2-1' },
+              { label: () => '1-5-2-2', key: '/multi-level/1-5-2-2' },
+            ],
+          },
         ],
       },
     ],
