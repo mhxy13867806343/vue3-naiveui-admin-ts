@@ -1,11 +1,9 @@
 /**
  * Auth Store - 认证状态管理
- * 管理 token、username 状态，提供 login/logout 方法
  */
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { post } from '@/api/http'
-import type { LoginResponse, MockResponse } from '@/types'
+import { apiLogin } from '@/api'
 
 export const useAuthStore = defineStore('auth', () => {
   const token = ref<string | null>(localStorage.getItem('token'))
@@ -14,10 +12,7 @@ export const useAuthStore = defineStore('auth', () => {
   const isAuthenticated = computed(() => !!token.value)
 
   async function login(user: string, password: string) {
-    const res = await post<MockResponse<LoginResponse>>('/api/login', {
-      username: user,
-      password,
-    })
+    const res = await apiLogin(user, password)
 
     if (res.code === 200 && res.data) {
       token.value = res.data.token

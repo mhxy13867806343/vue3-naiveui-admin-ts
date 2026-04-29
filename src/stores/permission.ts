@@ -1,11 +1,9 @@
 /**
  * Permission Store - 权限状态管理
- * 管理 role、permissions、dynamicRoutesRegistered 状态
  */
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { get } from '@/api/http'
-import type { MockResponse } from '@/types'
+import { apiGetPermissions } from '@/api'
 
 export const usePermissionStore = defineStore('permission', () => {
   const role = ref<string>(localStorage.getItem('role') || '')
@@ -14,10 +12,7 @@ export const usePermissionStore = defineStore('permission', () => {
 
   async function loadPermissions() {
     const currentRole = localStorage.getItem('role') || 'user'
-    const res = await get<MockResponse<{ role: string; permissions: string[] }>>(
-      '/api/permissions',
-      { role: currentRole },
-    )
+    const res = await apiGetPermissions(currentRole)
 
     if (res.code === 200 && res.data) {
       role.value = res.data.role

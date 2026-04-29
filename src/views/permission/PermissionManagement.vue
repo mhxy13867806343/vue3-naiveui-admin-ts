@@ -18,8 +18,8 @@ import {
   useMessage,
   type TreeOption,
 } from 'naive-ui'
-import { get as httpGet, put as httpPut } from '@/api/http'
-import type { MockResponse, RolePermission } from '@/types'
+import { apiGetRolePermissions, apiUpdateRolePermissions } from '@/api'
+import type { RolePermission } from '@/types'
 import { useLoading } from '@/composables/useLoading'
 
 const { t } = useI18n()
@@ -78,7 +78,7 @@ const permissionTreeOptions = computed<TreeOption[]>(() => {
 /** 加载角色权限数据 */
 async function loadRolePermissions() {
   await run(async () => {
-    const res = await httpGet<MockResponse<RolePermission[]>>('/api/role-permissions')
+    const res = await apiGetRolePermissions()
     if (res.code === 200 && res.data) {
       roles.value = res.data
     }
@@ -96,10 +96,7 @@ function handleSelectRole(role: string) {
 async function handleUpdatePermissions() {
   try {
     await run(async () => {
-      await httpPut('/api/role-permissions', {
-        role: selectedRole.value,
-        permissions: checkedKeys.value,
-      })
+      await apiUpdateRolePermissions(selectedRole.value, checkedKeys.value)
     })
     message.success(t('permission.saveSuccess'))
   } catch {

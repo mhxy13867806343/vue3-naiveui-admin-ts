@@ -8,7 +8,6 @@ import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { NMenu, NIcon, NLayoutSider } from 'naive-ui'
 import type { MenuOption } from 'naive-ui'
-import { usePermissionStore } from '@/stores/permission'
 
 const props = defineProps<{
   collapsed: boolean
@@ -21,30 +20,71 @@ const emit = defineEmits<{
 const router = useRouter()
 const route = useRoute()
 const { t } = useI18n()
-const permissionStore = usePermissionStore()
 
-/** 根据动态路由和权限生成菜单数据 */
-const menuOptions = computed<MenuOption[]>(() => {
-  const options: MenuOption[] = []
-
-  if (permissionStore.hasPermission('dashboard:view')) {
-    options.push({
-      label: () => t('menu.dashboard'),
-      key: '/dashboard',
-      icon: () => h(NIcon, null, { default: () => h('span', '📊') }),
-    })
-  }
-
-  if (permissionStore.hasPermission('permission:view')) {
-    options.push({
-      label: () => t('menu.permissionManagement'),
-      key: '/permission-management',
-      icon: () => h(NIcon, null, { default: () => h('span', '🔐') }),
-    })
-  }
-
-  return options
-})
+/** 静态嵌套菜单数据 */
+const menuOptions = computed<MenuOption[]>(() => [
+  {
+    label: () => t('menu.dashboard'),
+    key: 'dashboard',
+    icon: () => h(NIcon, null, { default: () => h('span', '📊') }),
+    children: [
+      { label: () => t('menu.workspace'), key: '/dashboard/workspace' },
+      { label: () => t('menu.analytics'), key: '/dashboard/analytics' },
+    ],
+  },
+  {
+    label: () => t('menu.system'),
+    key: 'system',
+    icon: () => h(NIcon, null, { default: () => h('span', '👥') }),
+    children: [
+      { label: () => t('menu.userManagement'), key: '/system/user' },
+      { label: () => t('menu.roleManagement'), key: '/system/role' },
+      { label: () => t('menu.menuManagement'), key: '/system/menu' },
+      { label: () => t('menu.departmentManagement'), key: '/system/department' },
+    ],
+  },
+  {
+    label: () => t('menu.content'),
+    key: 'content',
+    icon: () => h(NIcon, null, { default: () => h('span', '📝') }),
+    children: [
+      { label: () => t('menu.articleManagement'), key: '/content/article' },
+      { label: () => t('menu.categoryManagement'), key: '/content/category' },
+      { label: () => t('menu.tagManagement'), key: '/content/tag' },
+    ],
+  },
+  {
+    label: () => t('menu.components'),
+    key: 'components',
+    icon: () => h(NIcon, null, { default: () => h('span', '📦') }),
+    children: [
+      { label: () => t('menu.editorDemo'), key: '/components/editor' },
+      { label: () => t('menu.dragDemo'), key: '/components/drag' },
+      { label: () => t('menu.chartsDemo'), key: '/components/charts' },
+      { label: () => t('menu.iconsDemo'), key: '/components/icons' },
+    ],
+  },
+  {
+    label: () => t('menu.features'),
+    key: 'features',
+    icon: () => h(NIcon, null, { default: () => h('span', '🔧') }),
+    children: [
+      { label: () => t('menu.i18nDemo'), key: '/features/i18n' },
+      { label: () => t('menu.clipboardDemo'), key: '/features/clipboard' },
+      { label: () => t('menu.printDemo'), key: '/features/print' },
+    ],
+  },
+  {
+    label: () => t('menu.permissionManagement'),
+    key: '/permission-management',
+    icon: () => h(NIcon, null, { default: () => h('span', '🔐') }),
+  },
+  {
+    label: () => t('menu.about'),
+    key: '/about',
+    icon: () => h(NIcon, null, { default: () => h('span', '📄') }),
+  },
+])
 
 /** 当前激活的菜单项 */
 const activeKey = computed(() => {
