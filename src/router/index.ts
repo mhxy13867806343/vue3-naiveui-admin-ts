@@ -356,6 +356,19 @@ export const staticRoutes: RouteRecordRaw[] = [
       { path: 'permission/http-502', name: 'Http502', component: () => import('@/views/error/Error502.vue'), meta: { title: '502 Bad Gateway' } },
       { path: 'permission/http-503', name: 'Http503', component: () => import('@/views/error/Error503.vue'), meta: { title: '503 Unavailable' } },
       { path: 'permission/http-504', name: 'Http504', component: () => import('@/views/error/Error504.vue'), meta: { title: '504 Timeout' } },
+      // Rules / 规则示例
+      {
+        path: 'rules/maze',
+        name: 'MazeGenerator',
+        component: () => import('@/views/rules/MazeGenerator.vue'),
+        meta: { title: '迷宫生成与求解' },
+      },
+      {
+        path: 'rules/sorting',
+        name: 'SortingVisualizer',
+        component: () => import('@/views/rules/SortingVisualizer.vue'),
+        meta: { title: '排序可视化' },
+      },
       // About
       {
         path: 'about',

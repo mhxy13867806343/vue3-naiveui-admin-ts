@@ -244,6 +244,15 @@ const menuOptions = computed<MenuOption[]>(() => [
     ],
   },
   {
+    label: () => t('menu.ruleExamples'),
+    key: 'rules',
+    icon: () => h(NIcon, null, { default: () => h('span', '🧮') }),
+    children: [
+      { label: () => t('menu.maze'), key: '/rules/maze' },
+      { label: () => t('menu.sorting'), key: '/rules/sorting' },
+    ],
+  },
+  {
     label: () => t('menu.about'),
     key: '/about',
     icon: () => h(NIcon, null, { default: () => h('span', '📄') }),
