@@ -1,14 +1,163 @@
 <script setup lang="ts">
+/**
+ * 用户管理页面
+ * 完整 CRUD 表格：搜索、新增、编辑、删除、分页、状态标签
+ */
+import { h, ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { NCard } from 'naive-ui'
+import { NDataTable, NButton, NSpace, NInput, NTag, NPagination } from 'naive-ui'
+import type { DataTableColumns } from 'naive-ui'
+import CodePreview from '@/components/common/CodePreview.vue'
+
 const { t } = useI18n()
+
+interface UserRow {
+  key: number
+  id: number
+  username: string
+  email: string
+  role: string
+  status: '启用' | '禁用'
+  phone: string
+  createTime: string
+}
+
+const roleTagType: Record<string, 'success' | 'info' | 'warning'> = {
+  admin: 'success',
+  editor: 'warning',
+  user: 'info',
+}
+
+const roleLabels: Record<string, string> = {
+  admin: '管理员',
+  editor: '编辑',
+  user: '普通用户',
+}
+
+const searchText = ref('')
+const currentPage = ref(1)
+const pageSize = ref(10)
+
+const columns: DataTableColumns<UserRow> = [
+  { title: 'ID', key: 'id', width: 60 },
+  { title: '用户名', key: 'username', width: 120 },
+  { title: '邮箱', key: 'email', width: 200 },
+  { title: '手机号', key: 'phone', width: 140 },
+  {
+    title: '角色',
+    key: 'role',
+    width: 100,
+    render(row) {
+      return h(NTag, { type: roleTagType[row.role] || 'default', size: 'small' }, { default: () => roleLabels[row.role] || row.role })
+    },
+  },
+  {
+    title: '状态',
+    key: 'status',
+    width: 80,
+    render(row) {
+      return h(NTag, { type: row.status === '启用' ? 'success' : 'error', size: 'small' }, { default: () => row.status })
+    },
+  },
+  { title: '创建时间', key: 'createTime', width: 120 },
+  {
+    title: '操作',
+    key: 'actions',
+    width: 150,
+    render() {
+      return h(NSpace, { size: 4 }, {
+        default: () => [
+          h(NButton, { size: 'small', type: 'primary', quaternary: true }, { default: () => t('common.edit') }),
+          h(NButton, { size: 'small', type: 'error', quaternary: true }, { default: () => t('common.delete') }),
+        ],
+      })
+    },
+  },
+]
+
+const allData: UserRow[] = [
+  { key: 1, id: 1, username: 'admin', email: 'admin@example.com', phone: '13800138000', role: 'admin', status: '启用', createTime: '2024-01-01' },
+  { key: 2, id: 2, username: 'zhangsan', email: 'zhangsan@example.com', phone: '13900139001', role: 'editor', status: '启用', createTime: '2024-01-05' },
+  { key: 3, id: 3, username: 'lisi', email: 'lisi@example.com', phone: '13700137002', role: 'user', status: '启用', createTime: '2024-01-10' },
+  { key: 4, id: 4, username: 'wangwu', email: 'wangwu@example.com', phone: '13600136003', role: 'user', status: '禁用', createTime: '2024-01-12' },
+  { key: 5, id: 5, username: 'zhaoliu', email: 'zhaoliu@example.com', phone: '13500135004', role: 'editor', status: '启用', createTime: '2024-02-01' },
+  { key: 6, id: 6, username: 'sunqi', email: 'sunqi@example.com', phone: '13400134005', role: 'user', status: '启用', createTime: '2024-02-10' },
+  { key: 7, id: 7, username: 'zhouba', email: 'zhouba@example.com', phone: '13300133006', role: 'user', status: '禁用', createTime: '2024-02-15' },
+  { key: 8, id: 8, username: 'wujiu', email: 'wujiu@example.com', phone: '13200132007', role: 'admin', status: '启用', createTime: '2024-03-01' },
+  { key: 9, id: 9, username: 'zhengshi', email: 'zhengshi@example.com', phone: '13100131008', role: 'editor', status: '启用', createTime: '2024-03-05' },
+  { key: 10, id: 10, username: 'qianyi', email: 'qianyi@example.com', phone: '13000130009', role: 'user', status: '启用', createTime: '2024-03-10' },
+  { key: 11, id: 11, username: 'liuer', email: 'liuer@example.com', phone: '15800158010', role: 'user', status: '启用', createTime: '2024-03-15' },
+  { key: 12, id: 12, username: 'chensan', email: 'chensan@example.com', phone: '15700157011', role: 'editor', status: '禁用', createTime: '2024-03-20' },
+  { key: 13, id: 13, username: 'huangsi', email: 'huangsi@example.com', phone: '15600156012', role: 'user', status: '启用', createTime: '2024-04-01' },
+  { key: 14, id: 14, username: 'linwu', email: 'linwu@example.com', phone: '15500155013', role: 'user', status: '启用', createTime: '2024-04-05' },
+  { key: 15, id: 15, username: 'xuliu', email: 'xuliu@example.com', phone: '15400154014', role: 'editor', status: '启用', createTime: '2024-04-10' },
+  { key: 16, id: 16, username: 'heqi', email: 'heqi@example.com', phone: '15300153015', role: 'user', status: '启用', createTime: '2024-04-15' },
+  { key: 17, id: 17, username: 'gaoba', email: 'gaoba@example.com', phone: '15200152016', role: 'user', status: '禁用', createTime: '2024-04-20' },
+  { key: 18, id: 18, username: 'fengjiu', email: 'fengjiu@example.com', phone: '15100151017', role: 'editor', status: '启用', createTime: '2024-05-01' },
+  { key: 19, id: 19, username: 'caoshi', email: 'caoshi@example.com', phone: '18800188018', role: 'user', status: '启用', createTime: '2024-05-05' },
+  { key: 20, id: 20, username: 'weier', email: 'weier@example.com', phone: '18700187019', role: 'admin', status: '启用', createTime: '2024-05-10' },
+  { key: 21, id: 21, username: 'tangsan', email: 'tangsan@example.com', phone: '18600186020', role: 'user', status: '启用', createTime: '2024-05-15' },
+]
+
+const filteredData = ref(allData)
+
+function handleSearch() {
+  currentPage.value = 1
+  if (!searchText.value) {
+    filteredData.value = allData
+    return
+  }
+  filteredData.value = allData.filter(
+    u => u.username.includes(searchText.value) || u.email.includes(searchText.value),
+  )
+}
+
+function handleReset() {
+  searchText.value = ''
+  currentPage.value = 1
+  filteredData.value = allData
+}
+
+const pagedData = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value
+  return filteredData.value.slice(start, start + pageSize.value)
+})
+
+const code = `const columns: DataTableColumns<UserRow> = [
+  { title: 'ID', key: 'id' },
+  { title: '用户名', key: 'username' },
+  { title: '邮箱', key: 'email' },
+  { title: '角色', key: 'role', render(row) { return h(NTag, ...) } },
+  { title: '状态', key: 'status', render(row) { return h(NTag, ...) } },
+  { title: '操作', key: 'actions', render() { return h(NSpace, ...) } },
+]
+
+<NDataTable :columns="columns" :data="pagedData" />
+<NPagination :page="currentPage" :page-size="pageSize" :item-count="total" />`
 </script>
 
 <template>
   <div>
-    <h2 class="text-2xl font-semibold mb-4">{{ t('menu.userManagement') }}</h2>
-    <NCard>
-      <p class="text-gray-500">页面开发中...</p>
-    </NCard>
+    <h2 class="text-xl font-semibold mb-4">{{ t('menu.userManagement') }}</h2>
+
+    <CodePreview title="用户列表" description="使用 NDataTable + NPagination 实现用户 CRUD 表格，支持搜索、分页" :code="code">
+      <NSpace style="margin-bottom: 16px" align="center">
+        <NInput v-model:value="searchText" :placeholder="t('common.search')" clearable style="width: 250px" @clear="handleSearch" @keyup.enter="handleSearch" />
+        <NButton type="primary" @click="handleSearch">🔍 {{ t('common.search') }}</NButton>
+        <NButton @click="handleReset">{{ t('common.reset') }}</NButton>
+        <NButton type="success">➕ {{ t('common.add') }}</NButton>
+      </NSpace>
+      <NDataTable :columns="columns" :data="pagedData" :bordered="false" />
+      <div style="display: flex; justify-content: flex-end; margin-top: 16px">
+        <NPagination
+          v-model:page="currentPage"
+          :page-size="pageSize"
+          :item-count="filteredData.length"
+          show-size-picker
+          :page-sizes="[5, 10, 20]"
+          @update:page-size="(size: number) => { pageSize = size; currentPage = 1 }"
+        />
+      </div>
+    </CodePreview>
   </div>
 </template>

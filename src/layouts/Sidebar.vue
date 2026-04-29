@@ -54,6 +54,84 @@ const menuOptions = computed<MenuOption[]>(() => [
     ],
   },
   {
+    label: () => t('menu.uiComponents'),
+    key: 'ui',
+    icon: () => h(NIcon, null, { default: () => h('span', '🎨') }),
+    children: [
+      {
+        label: () => t('menu.uiGeneral'),
+        key: 'ui-general',
+        children: [
+          { label: () => t('menu.uiButton'), key: '/ui/button' },
+          { label: () => t('menu.uiIcon'), key: '/components/icons' },
+          { label: () => t('menu.uiDivider'), key: '/ui/divider' },
+        ],
+      },
+      {
+        label: () => t('menu.uiDataEntry'),
+        key: 'ui-data-entry',
+        children: [
+          { label: () => t('menu.uiInput'), key: '/ui/input' },
+          { label: () => t('menu.uiSelect'), key: '/ui/select' },
+          { label: () => t('menu.uiDatePicker'), key: '/ui/date-picker' },
+          { label: () => t('menu.uiSwitch'), key: '/ui/switch' },
+          { label: () => t('menu.uiSlider'), key: '/ui/slider' },
+          { label: () => t('menu.uiUpload'), key: '/ui/upload' },
+          { label: () => t('menu.uiTransfer'), key: '/ui/transfer' },
+          { label: () => t('menu.uiColorPicker'), key: '/ui/color-picker' },
+          { label: () => t('menu.uiForm'), key: '/ui/form' },
+        ],
+      },
+      {
+        label: () => t('menu.uiDataDisplay'),
+        key: 'ui-data-display',
+        children: [
+          { label: () => t('menu.uiTable'), key: '/ui/table' },
+          { label: () => t('menu.uiTag'), key: '/ui/tag' },
+          { label: () => t('menu.uiAvatar'), key: '/ui/avatar' },
+          { label: () => t('menu.uiBadge'), key: '/ui/badge' },
+          { label: () => t('menu.uiCard'), key: '/ui/card' },
+          { label: () => t('menu.uiCarousel'), key: '/ui/carousel' },
+          { label: () => t('menu.uiCollapse'), key: '/ui/collapse' },
+          { label: () => t('menu.uiDescriptions'), key: '/ui/descriptions' },
+          { label: () => t('menu.uiTree'), key: '/ui/tree' },
+          { label: () => t('menu.uiTimeline'), key: '/ui/timeline' },
+          { label: () => t('menu.uiProgress'), key: '/ui/progress' },
+          { label: () => t('menu.uiEmpty'), key: '/ui/empty' },
+        ],
+      },
+      {
+        label: () => t('menu.uiFeedback'),
+        key: 'ui-feedback',
+        children: [
+          { label: () => t('menu.uiAlert'), key: '/ui/alert' },
+          { label: () => t('menu.uiMessage'), key: '/ui/message' },
+          { label: () => t('menu.uiNotification'), key: '/ui/notification' },
+          { label: () => t('menu.uiDialog'), key: '/ui/dialog' },
+          { label: () => t('menu.uiModal'), key: '/ui/modal' },
+          { label: () => t('menu.uiDrawer'), key: '/ui/drawer' },
+          { label: () => t('menu.uiPopover'), key: '/ui/popover' },
+          { label: () => t('menu.uiTooltip'), key: '/ui/tooltip' },
+          { label: () => t('menu.uiResult'), key: '/ui/result' },
+          { label: () => t('menu.uiSkeleton'), key: '/ui/skeleton' },
+          { label: () => t('menu.uiSpin'), key: '/ui/spin' },
+        ],
+      },
+      {
+        label: () => t('menu.uiNavigation'),
+        key: 'ui-navigation',
+        children: [
+          { label: () => t('menu.uiMenu'), key: '/ui/menu' },
+          { label: () => t('menu.uiTabs'), key: '/ui/tabs' },
+          { label: () => t('menu.uiBreadcrumb'), key: '/ui/breadcrumb' },
+          { label: () => t('menu.uiDropdown'), key: '/ui/dropdown' },
+          { label: () => t('menu.uiPagination'), key: '/ui/pagination' },
+          { label: () => t('menu.uiSteps'), key: '/ui/steps' },
+        ],
+      },
+    ],
+  },
+  {
     label: () => t('menu.charts'),
     key: 'charts',
     icon: () => h(NIcon, null, { default: () => h('span', '📈') }),
@@ -96,7 +174,6 @@ const menuOptions = computed<MenuOption[]>(() => [
         children: [
           { label: () => t('menu.editorDemo'), key: '/components/editor' },
           { label: () => t('menu.dragDemo'), key: '/components/drag' },
-          { label: () => t('menu.iconsDemo'), key: '/components/icons' },
         ],
       },
       {
@@ -121,8 +198,12 @@ const menuOptions = computed<MenuOption[]>(() => [
   },
   {
     label: () => t('menu.permissionManagement'),
-    key: '/permission-management',
+    key: 'permission',
     icon: () => h(NIcon, null, { default: () => h('span', '🔐') }),
+    children: [
+      { label: () => t('menu.permissionConfig'), key: '/permission-management' },
+      { label: () => t('menu.permissionDemo'), key: '/permission/demo' },
+    ],
   },
   {
     label: () => t('menu.about'),
