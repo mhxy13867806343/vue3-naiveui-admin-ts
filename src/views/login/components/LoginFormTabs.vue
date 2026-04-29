@@ -100,7 +100,7 @@ async function handleLogin() {
     }
     message.success(t('login.loginSuccess'))
     emit('login')
-    router.push('/dashboard')
+    router.push('/dashboard/workspace')
   } catch {
     message.error(t('login.loginFailed'))
   }

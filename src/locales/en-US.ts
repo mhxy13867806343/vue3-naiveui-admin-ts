@@ -127,6 +127,8 @@ export default {
     chartParallel: 'Parallel Coordinates',
     chartThemeRiver: 'Theme River',
     chartGraph: 'Graph',
+    // Hooks
+    hooks: 'Hooks',
     // Third party
     thirdParty: 'Third Party',
     thirdPartyComponents: 'Components',

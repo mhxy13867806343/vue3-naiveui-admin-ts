@@ -237,6 +237,17 @@ export const staticRoutes: RouteRecordRaw[] = [
         component: () => import('@/views/charts/GraphChart.vue'),
         meta: { title: '关系图' },
       },
+      // Hooks group
+      { path: 'hooks/use-loading', name: 'UseLoadingDemo', component: () => import('@/views/hooks/UseLoadingDemo.vue'), meta: { title: 'useLoading' } },
+      { path: 'hooks/use-pagination', name: 'UsePaginationDemo', component: () => import('@/views/hooks/UsePaginationDemo.vue'), meta: { title: 'usePagination' } },
+      { path: 'hooks/use-permission', name: 'UsePermissionDemo', component: () => import('@/views/hooks/UsePermissionDemo.vue'), meta: { title: 'usePermission' } },
+      { path: 'hooks/use-sms-countdown', name: 'UseSmsCountdownDemo', component: () => import('@/views/hooks/UseSmsCountdownDemo.vue'), meta: { title: 'useSmsCountdown' } },
+      { path: 'hooks/use-local-storage', name: 'UseLocalStorageDemo', component: () => import('@/views/hooks/UseLocalStorageDemo.vue'), meta: { title: 'useLocalStorage' } },
+      { path: 'hooks/use-clipboard', name: 'UseClipboardDemo', component: () => import('@/views/hooks/UseClipboardDemo.vue'), meta: { title: 'useClipboard' } },
+      { path: 'hooks/use-debounce-fn', name: 'UseDebounceFnDemo', component: () => import('@/views/hooks/UseDebounceFnDemo.vue'), meta: { title: 'useDebounceFn' } },
+      { path: 'hooks/use-throttle-fn', name: 'UseThrottleFnDemo', component: () => import('@/views/hooks/UseThrottleFnDemo.vue'), meta: { title: 'useThrottleFn' } },
+      { path: 'hooks/use-window-size', name: 'UseWindowSizeDemo', component: () => import('@/views/hooks/UseWindowSizeDemo.vue'), meta: { title: 'useWindowSize' } },
+      { path: 'hooks/use-event-listener', name: 'UseEventListenerDemo', component: () => import('@/views/hooks/UseEventListenerDemo.vue'), meta: { title: 'useEventListener' } },
       // Features group
       {
         path: 'features/i18n',

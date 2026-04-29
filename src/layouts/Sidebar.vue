@@ -189,6 +189,23 @@ const menuOptions = computed<MenuOption[]>(() => [
     ],
   },
   {
+    label: () => t('menu.hooks'),
+    key: 'hooks',
+    icon: () => h(NIcon, null, { default: () => h('span', '🪝') }),
+    children: [
+      { label: () => 'useLoading', key: '/hooks/use-loading' },
+      { label: () => 'usePagination', key: '/hooks/use-pagination' },
+      { label: () => 'usePermission', key: '/hooks/use-permission' },
+      { label: () => 'useSmsCountdown', key: '/hooks/use-sms-countdown' },
+      { label: () => 'useLocalStorage', key: '/hooks/use-local-storage' },
+      { label: () => 'useClipboard', key: '/hooks/use-clipboard' },
+      { label: () => 'useDebounceFn', key: '/hooks/use-debounce-fn' },
+      { label: () => 'useThrottleFn', key: '/hooks/use-throttle-fn' },
+      { label: () => 'useWindowSize', key: '/hooks/use-window-size' },
+      { label: () => 'useEventListener', key: '/hooks/use-event-listener' },
+    ],
+  },
+  {
     label: () => t('menu.features'),
     key: 'features',
     icon: () => h(NIcon, null, { default: () => h('span', '🔧') }),

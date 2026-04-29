@@ -35,10 +35,28 @@ export const useTabsStore = defineStore('tabs', () => {
     activeTab.value = path
   }
 
+  function closeLeft(path: string) {
+    const idx = tabs.value.findIndex(t => t.path === path)
+    if (idx <= 0) return
+    tabs.value = tabs.value.filter((t, i) => !t.closable || i >= idx)
+    if (!tabs.value.find(t => t.path === activeTab.value)) {
+      activeTab.value = path
+    }
+  }
+
+  function closeRight(path: string) {
+    const idx = tabs.value.findIndex(t => t.path === path)
+    if (idx === -1) return
+    tabs.value = tabs.value.filter((t, i) => !t.closable || i <= idx)
+    if (!tabs.value.find(t => t.path === activeTab.value)) {
+      activeTab.value = path
+    }
+  }
+
   function closeAll() {
     tabs.value = tabs.value.filter(t => !t.closable)
     activeTab.value = tabs.value[0]?.path || '/dashboard/workspace'
   }
 
-  return { tabs, activeTab, addTab, removeTab, closeOthers, closeAll }
+  return { tabs, activeTab, addTab, removeTab, closeOthers, closeLeft, closeRight, closeAll }
 })

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { NTag, NSpace, NCheckTag } from 'naive-ui'
+import { NTag, NSpace } from 'naive-ui'
 import CodePreview from '@/components/common/CodePreview.vue'
 
 const checked = ref(false)
@@ -19,7 +19,7 @@ const sizeCode = `<NTag size="small">Small</NTag>
 
 const closableCode = `<NTag closable @close="handleClose">可关闭</NTag>`
 
-const checkableCode = `<NCheckTag v-model:checked="checked">可选中</NCheckTag>`
+const checkableCode = `<NTag checkable v-model:checked="checked">可选中</NTag>`
 </script>
 
 <template>
@@ -55,11 +55,11 @@ const checkableCode = `<NCheckTag v-model:checked="checked">可选中</NCheckTag
       </NSpace>
     </CodePreview>
 
-    <CodePreview title="可选中" description="使用 NCheckTag 实现可选中的标签" :code="checkableCode">
+    <CodePreview title="可选中" description="使用 checkable 属性实现可选中的标签" :code="checkableCode">
       <NSpace>
-        <NCheckTag v-model:checked="checked">{{ checked ? '已选中' : '未选中' }}</NCheckTag>
-        <NCheckTag :checked="true">始终选中</NCheckTag>
-        <NCheckTag :checked="false">未选中</NCheckTag>
+        <NTag checkable v-model:checked="checked">{{ checked ? '已选中' : '未选中' }}</NTag>
+        <NTag checkable :checked="true">始终选中</NTag>
+        <NTag checkable :checked="false">未选中</NTag>
       </NSpace>
     </CodePreview>
   </div>

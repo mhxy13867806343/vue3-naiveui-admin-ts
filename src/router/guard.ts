@@ -14,7 +14,7 @@ export function setupRouterGuard(router: Router) {
     // 白名单直接放行
     if (WHITE_LIST.includes(to.path)) {
       if (to.path === '/login' && authStore.isAuthenticated) {
-        next('/dashboard')
+        next('/dashboard/workspace')
         return
       }
       next()

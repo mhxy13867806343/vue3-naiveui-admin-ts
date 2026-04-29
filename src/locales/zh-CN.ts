@@ -127,6 +127,8 @@ export default {
     chartParallel: '平行坐标图',
     chartThemeRiver: '主题河流图',
     chartGraph: '关系图',
+    // Hooks
+    hooks: 'Hooks 示例',
     // Third party
     thirdParty: '第三方示例',
     thirdPartyComponents: '第三方组件',
