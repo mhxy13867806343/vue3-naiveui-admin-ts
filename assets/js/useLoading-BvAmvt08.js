@@ -1,0 +1,1 @@
+import{st as n}from"./i18n-w4Gjy5WG.js";function t(){const t=n(!1);return{loading:t,run:async function(n){t.value=!0;try{return await n()}finally{t.value=!1}}}}export{t};

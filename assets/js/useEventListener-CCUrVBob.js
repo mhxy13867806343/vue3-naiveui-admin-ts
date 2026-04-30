@@ -1,0 +1,1 @@
+import{R as e,z as t}from"./i18n-w4Gjy5WG.js";function n(n,o,i,r){let s;e(()=>{s="function"==typeof n?n():n,s.addEventListener(o,i,r)}),t(()=>{s&&s.removeEventListener(o,i,r)})}export{n as t};
