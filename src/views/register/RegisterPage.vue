@@ -78,7 +78,8 @@ const templateOptions = [
         animationDuration: 3 + Math.random() * 4 + 's',
         width: 2 + Math.random() * 4 + 'px',
         height: 2 + Math.random() * 4 + 'px',
-      }"></span>
+      }"
+      ></span>
     </div>
     <div class="tpl3-card">
       <div class="tpl3-head">

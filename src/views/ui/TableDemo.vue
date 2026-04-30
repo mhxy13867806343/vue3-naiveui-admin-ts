@@ -71,10 +71,10 @@ const checkedRowKeys = ref([])
     <CodePreview title="可选择" description="通过 type: 'selection' 列启用行选择" :code="selectionCode">
       <p v-if="checkedRowKeys.length" style="margin-bottom: 8px; color: #666">已选择 {{ checkedRowKeys.length }} 项</p>
       <NDataTable
+        v-model:checked-row-keys="checkedRowKeys"
         :columns="selectionColumns"
         :data="data"
         :row-key="(row: Row) => row.key"
-        v-model:checked-row-keys="checkedRowKeys"
         :pagination="{ pageSize: 5 }"
         :bordered="false"
       />

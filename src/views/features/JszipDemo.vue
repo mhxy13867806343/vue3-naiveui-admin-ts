@@ -64,7 +64,7 @@ saveAs(blob, 'archive.zip')`
               </div>
             </NListItem>
           </NList>
-          <NButton type="primary" block class="mt-4" @click="downloadZip" :disabled="!files.length">
+          <NButton type="primary" block class="mt-4" :disabled="!files.length" @click="downloadZip">
             📦 打包下载 ({{ files.length }} 个文件)
           </NButton>
         </NCard>
@@ -72,7 +72,7 @@ saveAs(blob, 'archive.zip')`
           <div class="space-y-3">
             <NInput v-model:value="newName" placeholder="文件名 (如 hello.txt)" />
             <NInput v-model:value="newContent" type="textarea" :rows="6" placeholder="文件内容..." />
-            <NButton block @click="addFile" :disabled="!newName.trim()">添加</NButton>
+            <NButton block :disabled="!newName.trim()" @click="addFile">添加</NButton>
           </div>
         </NCard>
       </div>

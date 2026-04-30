@@ -57,7 +57,7 @@ const checkableCode = `<NTag checkable v-model:checked="checked">可选中</NTag
 
     <CodePreview title="可选中" description="使用 checkable 属性实现可选中的标签" :code="checkableCode">
       <NSpace>
-        <NTag checkable v-model:checked="checked">{{ checked ? '已选中' : '未选中' }}</NTag>
+        <NTag v-model:checked="checked" checkable>{{ checked ? '已选中' : '未选中' }}</NTag>
         <NTag checkable :checked="true">始终选中</NTag>
         <NTag checkable :checked="false">未选中</NTag>
       </NSpace>

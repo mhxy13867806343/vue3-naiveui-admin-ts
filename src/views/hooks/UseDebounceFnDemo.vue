@@ -58,7 +58,7 @@ const { debouncedFn, isPending, cancel } = useDebounceFn((text: string) => {
             style="width: 320px"
             @update:value="onInput"
           />
-          <NButton @click="cancel" :disabled="!isPending">取消</NButton>
+          <NButton :disabled="!isPending" @click="cancel">取消</NButton>
         </NSpace>
 
         <NSpace align="center">

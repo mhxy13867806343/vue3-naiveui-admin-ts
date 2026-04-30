@@ -60,7 +60,7 @@ const { throttledFn, isPending, cancel } = useThrottleFn(() => {
             快速点击我！
           </NButton>
           <NButton @click="handleReset">重置</NButton>
-          <NButton @click="cancel" :disabled="!isPending">取消待执行</NButton>
+          <NButton :disabled="!isPending" @click="cancel">取消待执行</NButton>
         </NSpace>
 
         <NSpace align="center">

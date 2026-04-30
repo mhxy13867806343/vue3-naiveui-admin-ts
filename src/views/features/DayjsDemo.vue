@@ -2,11 +2,13 @@
 import { ref, computed } from 'vue'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import dayOfYear from 'dayjs/plugin/dayOfYear'
 import 'dayjs/locale/zh-cn'
 import { NCard, NAlert } from 'naive-ui'
 import CodePreview from '@/components/common/CodePreview.vue'
 
 dayjs.extend(relativeTime)
+dayjs.extend(dayOfYear)
 dayjs.locale('zh-cn')
 
 const now = ref(dayjs())
@@ -20,7 +22,7 @@ const examples = computed(() => [
   { label: '7天后', value: now.value.add(7, 'day').format('YYYY-MM-DD') },
   { label: '30天前', value: now.value.subtract(30, 'day').format('YYYY-MM-DD') },
   { label: '是否闰年', value: now.value.year() % 4 === 0 ? '是' : '否' },
-  { label: '今年第几天', value: String(now.value.dayOfYear?.() ?? now.value.diff(now.value.startOf('year'), 'day') + 1) },
+  { label: '今年第几天', value: String(now.value.dayOfYear()) },
   { label: 'Unix 时间戳', value: String(now.value.unix()) },
   { label: 'ISO 8601', value: now.value.toISOString() },
 ])

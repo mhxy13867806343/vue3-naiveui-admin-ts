@@ -75,10 +75,10 @@ const drag = ref(false)
         item-key="id"
         handle=".drag-handle"
         ghost-class="opacity-50"
-        @start="drag = true"
-        @end="drag = false"
         tag="ul"
         class="space-y-2"
+        @start="drag = true"
+        @end="drag = false"
       >
         <template #item="{ element }">
           <li class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200 cursor-default hover:bg-gray-100 transition-colors">

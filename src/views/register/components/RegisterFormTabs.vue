@@ -181,8 +181,8 @@ const linkClass = props.dark ? 'link-accent' : 'link-green'
                 text
                 type="primary"
                 :disabled="smsCountdown > 0"
-                @click="sendSmsCode"
                 size="small"
+                @click="sendSmsCode"
               >
                 {{ smsCountdown > 0 ? t('register.resendCode', { seconds: smsCountdown }) : t('register.sendCode') }}
               </NButton>
@@ -242,7 +242,7 @@ const linkClass = props.dark ? 'link-accent' : 'link-green'
   </div>
 
   <!-- 注册按钮 -->
-  <NButton type="primary" block size="large" :loading="loading" @click="handleRegister" style="margin-top: 8px;">
+  <NButton type="primary" block size="large" :loading="loading" style="margin-top: 8px;" @click="handleRegister">
     {{ t('register.registerButton') }}
   </NButton>
 

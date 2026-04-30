@@ -14,7 +14,7 @@ const option = ref({
   tooltip: {},
   legend: { data: ['团队'] },
   animationDurationUpdate: 1500,
-  animationEasingUpdate: 'quinticInOut',
+  animationEasingUpdate: 'quinticInOut' as const,
   series: [
     {
       name: '团队',

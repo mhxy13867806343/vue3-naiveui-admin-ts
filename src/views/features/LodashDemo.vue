@@ -120,7 +120,7 @@ const debouncedFn = debounce((val) => {
       </NCard>
 
       <NCard title="debounce 防抖 (500ms)">
-        <NInput :value="debounceInput" @update:value="handleInput" placeholder="输入文字试试防抖效果..." />
+        <NInput :value="debounceInput" placeholder="输入文字试试防抖效果..." @update:value="handleInput" />
         <p class="mt-2 text-sm text-gray-500">{{ debounceOutput || '等待输入...' }}</p>
       </NCard>
     </CodePreview>

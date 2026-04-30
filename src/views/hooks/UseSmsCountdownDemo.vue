@@ -41,7 +41,7 @@ const { countdown, start, reset } = useSmsCountdown(10)
           >
             {{ countdown > 0 ? `${countdown}秒后重发` : '发送验证码' }}
           </NButton>
-          <NButton @click="reset" :disabled="countdown === 0">
+          <NButton :disabled="countdown === 0" @click="reset">
             重置
           </NButton>
         </NSpace>

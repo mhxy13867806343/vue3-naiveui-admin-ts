@@ -503,9 +503,9 @@ function handleMenuUpdate(key: string) {
     :collapsed-width="64"
     :width="240"
     show-trigger
+    class="h-full"
     @collapse="emit('update:collapsed', true)"
     @expand="emit('update:collapsed', false)"
-    class="h-full"
   >
     <div class="p-4 text-center font-bold text-lg">
       {{ props.collapsed ? '📋' : 'Admin' }}

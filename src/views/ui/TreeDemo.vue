@@ -45,7 +45,7 @@ const checkableCode = `<NTree :data="treeData" checkable cascade block-line />`
     </CodePreview>
 
     <CodePreview title="可勾选" description="设置 checkable 属性启用复选框" :code="checkableCode">
-      <NTree :data="treeData" checkable cascade block-line default-expand-all v-model:checked-keys="checkedKeys" />
+      <NTree v-model:checked-keys="checkedKeys" :data="treeData" checkable cascade block-line default-expand-all />
       <p v-if="checkedKeys.length" style="margin-top: 8px; color: #666">已选: {{ checkedKeys.join(', ') }}</p>
     </CodePreview>
   </div>

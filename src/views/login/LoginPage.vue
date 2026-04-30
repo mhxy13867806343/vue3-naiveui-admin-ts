@@ -85,7 +85,8 @@ const isPwdFocus = ref(false)
         left: Math.random() * 100 + '%', top: Math.random() * 100 + '%',
         animationDelay: Math.random() * 5 + 's', animationDuration: 3 + Math.random() * 4 + 's',
         width: 2 + Math.random() * 4 + 'px', height: 2 + Math.random() * 4 + 'px',
-      }"></span>
+      }"
+      ></span>
     </div>
     <div class="tpl3-card">
       <div class="tpl3-head"><div class="tpl3-logo">⚡</div><h2>{{ t('login.title') }}</h2><p>欢迎回来，请登录</p></div>

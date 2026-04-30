@@ -202,8 +202,8 @@ function handleLogout() {
       <!-- Theme Switcher -->
       <NDropdown
         :options="themeOptions"
-        @select="handleThemeSelect"
         trigger="click"
+        @select="handleThemeSelect"
       >
         <NButton quaternary size="small">
           {{ currentThemeIcon }}
@@ -223,8 +223,8 @@ function handleLogout() {
       <!-- Language Switcher -->
       <NDropdown
         :options="languageOptions"
-        @select="handleLanguageSelect"
         trigger="click"
+        @select="handleLanguageSelect"
       >
         <NButton quaternary size="small">
           🌐 {{ currentLanguageLabel }}

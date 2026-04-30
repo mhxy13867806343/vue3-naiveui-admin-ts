@@ -113,7 +113,7 @@ async function onSubmit() {
               <template #prefix><span class="t2-input-icon">🔒</span></template>
             </NInput>
           </NFormItem>
-          <NButton type="primary" block size="large" :loading="props.loading" @click="onSubmit" class="t2-btn">
+          <NButton type="primary" block size="large" :loading="props.loading" class="t2-btn" @click="onSubmit">
             {{ t('register.registerButton') }}
           </NButton>
         </NForm>

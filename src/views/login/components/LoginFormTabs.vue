@@ -166,8 +166,8 @@ const linkClass = props.dark ? 'link-accent' : 'link-green'
                 text
                 type="primary"
                 :disabled="smsCountdown > 0"
-                @click="sendSmsCode"
                 size="small"
+                @click="sendSmsCode"
               >
                 {{ smsCountdown > 0 ? t('login.resendCode', { seconds: smsCountdown }) : t('login.sendCode') }}
               </NButton>

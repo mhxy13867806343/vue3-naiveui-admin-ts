@@ -25,7 +25,7 @@ const segmentCode = `<NTabs type="segment">
     <h2 class="text-xl font-semibold mb-4">Tabs 标签页</h2>
 
     <CodePreview title="线条类型" description="默认的线条样式标签页" :code="lineCode">
-      <NTabs type="line" v-model:value="activeTab">
+      <NTabs v-model:value="activeTab" type="line">
         <NTabPane name="tab1" tab="用户管理">用户管理相关内容，可以在这里管理系统用户。</NTabPane>
         <NTabPane name="tab2" tab="角色管理">角色管理相关内容，可以在这里配置角色权限。</NTabPane>
         <NTabPane name="tab3" tab="系统设置">系统设置相关内容，可以在这里修改系统配置。</NTabPane>

@@ -118,8 +118,8 @@ loadRolePermissions()
             <NListItem
               v-for="role in roles"
               :key="role.role"
-              @click="handleSelectRole(role.role)"
               :class="{ 'bg-blue-50': selectedRole === role.role }"
+              @click="handleSelectRole(role.role)"
             >
               <NThing
                 :title="role.role === 'admin' ? t('permission.admin') : t('permission.user')"
@@ -136,10 +136,10 @@ loadRolePermissions()
               :data="permissionTreeOptions"
               checkable
               :checked-keys="checkedKeys"
-              @update:checked-keys="(keys: string[]) => (checkedKeys = keys)"
               cascade
               selectable
               block-line
+              @update:checked-keys="(keys: string[]) => (checkedKeys = keys)"
             />
             <div class="mt-4">
               <NButton

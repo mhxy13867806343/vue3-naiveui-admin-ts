@@ -42,7 +42,7 @@ async function copyCode(code: string) {
 <template>
   <NCard :bordered="true" class="code-preview-card">
     <!-- 标题和描述 -->
-    <template #header v-if="title">
+    <template v-if="title" #header>
       <span class="preview-title">{{ title }}</span>
     </template>
     <template #header-extra>
@@ -50,16 +50,16 @@ async function copyCode(code: string) {
         <NButton
           quaternary
           size="small"
-          @click="copyCode(code)"
           :type="copied ? 'success' : 'default'"
+          @click="copyCode(code)"
         >
           {{ copied ? '✅ 已复制' : '📋 复制代码' }}
         </NButton>
         <NButton
           quaternary
           size="small"
-          @click="toggleCode"
           :type="showCode ? 'primary' : 'default'"
+          @click="toggleCode"
         >
           {{ showCode ? '🔼 收起代码' : '🔽 查看代码' }}
         </NButton>

@@ -308,8 +308,8 @@ onMounted(() => {
       :title="formTitle"
       :positive-text="t('common.confirm')"
       :negative-text="t('common.cancel')"
-      @positive-click="handleFormSubmit"
       style="width: 500px"
+      @positive-click="handleFormSubmit"
     >
       <NForm
         ref="formRef"
@@ -351,8 +351,8 @@ onMounted(() => {
       :title="t('role.permissions') + (currentPermRole ? ` - ${currentPermRole.name}` : '')"
       :positive-text="t('common.confirm')"
       :negative-text="t('common.cancel')"
-      @positive-click="handlePermSubmit"
       style="width: 600px"
+      @positive-click="handlePermSubmit"
     >
       <div style="max-height: 400px; overflow-y: auto; margin-top: 16px">
         <NTree
