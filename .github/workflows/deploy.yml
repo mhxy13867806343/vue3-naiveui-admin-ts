@@ -36,9 +36,11 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build
+        # GitHub Pages 是纯静态托管，没有后端 → 强制启用前端 Mock
         run: pnpm build
         env:
           NODE_OPTIONS: --max-old-space-size=4096
+          VITE_APP_MOCK_ENABLED: 'true'
 
       - name: Copy 404.html for SPA fallback
         run: cp dist/index.html dist/404.html
