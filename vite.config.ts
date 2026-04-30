@@ -115,7 +115,12 @@ export default defineConfig(({ mode }): UserConfig => {
             }
           },
           // 资源文件命名
-          chunkFileNames: 'assets/js/[name]-[hash].js',
+          chunkFileNames: (chunkInfo) => {
+            const name = chunkInfo.name.startsWith('_')
+              ? chunkInfo.name.slice(1)
+              : chunkInfo.name
+            return `assets/js/${name}-[hash].js`
+          },
           entryFileNames: 'assets/js/[name]-[hash].js',
           assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
         },
