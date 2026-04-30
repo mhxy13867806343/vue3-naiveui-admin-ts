@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc -b && vite build",
+    "build": "vite build",
+    "build:check": "vue-tsc -b && vite build",
     "build:analyze": "vite build --mode analyze",
+    "type-check": "vue-tsc -b",
     "preview": "vite preview",
     "test": "vitest --run",
     "lint": "eslint . --ext .vue,.js,.jsx,.ts,.tsx --fix",
