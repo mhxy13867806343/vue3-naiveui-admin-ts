@@ -2,7 +2,7 @@
  * 路由实例与静态路由配置
  * 静态路由包含 /login、/register、/401、/403、/404、/500
  */
-import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router'
 
 export const staticRoutes: RouteRecordRaw[] = [
   {
@@ -665,7 +665,7 @@ export const staticRoutes: RouteRecordRaw[] = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: staticRoutes,
 })
 
