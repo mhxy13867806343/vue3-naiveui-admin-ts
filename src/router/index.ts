@@ -23,6 +23,7 @@ export const staticRoutes: RouteRecordRaw[] = [
       { path: 'ui', redirect: '/ui/button' },
       { path: 'permission', redirect: '/permission/demo' },
       { path: 'rules', redirect: '/rules/maze' },
+      { path: 'ai', redirect: '/ai/chat' },
       { path: 'multi-level', redirect: '/multi-level/1-1' },
       { path: 'multi-level/1-2', redirect: '/multi-level/1-2-1' },
       { path: 'multi-level/1-3', redirect: '/multi-level/1-3-1' },
@@ -32,6 +33,11 @@ export const staticRoutes: RouteRecordRaw[] = [
       { path: 'multi-level/1-5', redirect: '/multi-level/1-5-1-1' },
       { path: 'multi-level/1-5-1', redirect: '/multi-level/1-5-1-1' },
       { path: 'multi-level/1-5-2', redirect: '/multi-level/1-5-2-1' },
+      // 业务示例分组重定向
+      { path: 'multi-level/biz', redirect: '/multi-level/biz/chat/wechat' },
+      { path: 'multi-level/biz/chat', redirect: '/multi-level/biz/chat/wechat' },
+      { path: 'multi-level/biz/ecom', redirect: '/multi-level/biz/ecom/taobao' },
+      { path: 'multi-level/biz/video', redirect: '/multi-level/biz/video/bilibili' },
       // Dashboard group
       {
         path: 'dashboard/workspace',
@@ -566,6 +572,12 @@ export const staticRoutes: RouteRecordRaw[] = [
         component: () => import('@/views/multi-level/Level1-5-2-2.vue'),
         meta: { title: '1-5-2-2 综合 Dashboard' },
       },
+      // 多级路由 - 业务示例
+      { path: 'multi-level/biz/chat/wechat', name: 'BizChatWechat', component: () => import('@/views/multi-level/biz/ChatWechat.vue'), meta: { title: '聊天 · 微信风格' } },
+      { path: 'multi-level/biz/chat/qq', name: 'BizChatQq', component: () => import('@/views/multi-level/biz/ChatQq.vue'), meta: { title: '聊天 · QQ 风格' } },
+      { path: 'multi-level/biz/ecom/taobao', name: 'BizEcomTaobao', component: () => import('@/views/multi-level/biz/EcomTaobao.vue'), meta: { title: '电商 · 淘宝商品流' } },
+      { path: 'multi-level/biz/ecom/pdd', name: 'BizEcomPdd', component: () => import('@/views/multi-level/biz/EcomPdd.vue'), meta: { title: '电商 · 拼多多拼团' } },
+      { path: 'multi-level/biz/video/bilibili', name: 'BizVideoBilibili', component: () => import('@/views/multi-level/biz/VideoBilibili.vue'), meta: { title: '视频 · B 站弹幕' } },
       // Rules / 规则示例
       {
         path: 'rules/maze',
@@ -579,6 +591,26 @@ export const staticRoutes: RouteRecordRaw[] = [
         component: () => import('@/views/rules/SortingVisualizer.vue'),
         meta: { title: '排序可视化' },
       },
+      // AI Components group
+      { path: 'ai/playground', name: 'AiPlaygroundDemo', component: () => import('@/views/ai/PlaygroundDemo.vue'), meta: { title: 'Playground 综合对话' } },
+      { path: 'ai/chat', name: 'AiChatDemo', component: () => import('@/views/ai/ChatDemo.vue'), meta: { title: 'Chat 聊天对话' } },
+      { path: 'ai/streaming', name: 'AiStreamingDemo', component: () => import('@/views/ai/StreamingDemo.vue'), meta: { title: 'Streaming 流式输出' } },
+      { path: 'ai/bubble', name: 'AiBubbleDemo', component: () => import('@/views/ai/BubbleDemo.vue'), meta: { title: 'Bubble 消息气泡' } },
+      { path: 'ai/prompts', name: 'AiPromptsDemo', component: () => import('@/views/ai/PromptsDemo.vue'), meta: { title: 'Prompts 提示词' } },
+      { path: 'ai/thinking', name: 'AiThinkingDemo', component: () => import('@/views/ai/ThinkingDemo.vue'), meta: { title: 'Thinking 思维链' } },
+      { path: 'ai/suggestion', name: 'AiSuggestionDemo', component: () => import('@/views/ai/SuggestionDemo.vue'), meta: { title: 'Suggestion 指令建议' } },
+      { path: 'ai/sender', name: 'AiSenderDemo', component: () => import('@/views/ai/SenderDemo.vue'), meta: { title: 'Sender 输入框' } },
+      { path: 'ai/attachments', name: 'AiAttachmentsDemo', component: () => import('@/views/ai/AttachmentsDemo.vue'), meta: { title: 'Attachments 附件上传' } },
+      { path: 'ai/welcome', name: 'AiWelcomeDemo', component: () => import('@/views/ai/WelcomeDemo.vue'), meta: { title: 'Welcome 欢迎页' } },
+      { path: 'ai/conversations', name: 'AiConversationsDemo', component: () => import('@/views/ai/ConversationsDemo.vue'), meta: { title: 'Conversations 会话列表' } },
+      { path: 'ai/bubble-list', name: 'AiBubbleListDemo', component: () => import('@/views/ai/BubbleListDemo.vue'), meta: { title: 'BubbleList 消息列表' } },
+      { path: 'ai/file-card', name: 'AiFileCardDemo', component: () => import('@/views/ai/FileCardDemo.vue'), meta: { title: 'FileCard 文件卡片' } },
+      { path: 'ai/typewriter', name: 'AiTypewriterDemo', component: () => import('@/views/ai/TypewriterDemo.vue'), meta: { title: 'Typewriter 打字机' } },
+      { path: 'ai/reasoning-tree', name: 'AiReasoningTreeDemo', component: () => import('@/views/ai/ReasoningTreeDemo.vue'), meta: { title: 'ReasoningTree 推理树' } },
+      { path: 'ai/mention-input', name: 'AiMentionInputDemo', component: () => import('@/views/ai/MentionInputDemo.vue'), meta: { title: 'MentionInput @提及输入' } },
+      { path: 'ai/use-typing-stream', name: 'AiUseTypingStreamDemo', component: () => import('@/views/ai/UseTypingStreamDemo.vue'), meta: { title: 'useTypingStream' } },
+      { path: 'ai/use-voice-record', name: 'AiUseVoiceRecordDemo', component: () => import('@/views/ai/UseVoiceRecordDemo.vue'), meta: { title: 'useVoiceRecord' } },
+      { path: 'ai/use-chat-request', name: 'AiUseChatRequestDemo', component: () => import('@/views/ai/UseChatRequestDemo.vue'), meta: { title: 'useChatRequest' } },
       // About
       {
         path: 'about',

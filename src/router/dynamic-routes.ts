@@ -214,6 +214,33 @@ export const dynamicRoutes: RouteRecordRaw[] = [
     ],
   },
 
+  // ---- AI Components ----
+  {
+    path: '/ai',
+    component: AdminLayout,
+    children: [
+      { path: 'playground', name: 'AiPlaygroundDemo', component: () => import('@/views/ai/PlaygroundDemo.vue'), meta: { title: 'menu.aiPlayground' } },
+      { path: 'chat', name: 'AiChatDemo', component: () => import('@/views/ai/ChatDemo.vue'), meta: { title: 'menu.aiChat' } },
+      { path: 'streaming', name: 'AiStreamingDemo', component: () => import('@/views/ai/StreamingDemo.vue'), meta: { title: 'menu.aiStreaming' } },
+      { path: 'bubble', name: 'AiBubbleDemo', component: () => import('@/views/ai/BubbleDemo.vue'), meta: { title: 'menu.aiBubble' } },
+      { path: 'prompts', name: 'AiPromptsDemo', component: () => import('@/views/ai/PromptsDemo.vue'), meta: { title: 'menu.aiPrompts' } },
+      { path: 'thinking', name: 'AiThinkingDemo', component: () => import('@/views/ai/ThinkingDemo.vue'), meta: { title: 'menu.aiThinking' } },
+      { path: 'suggestion', name: 'AiSuggestionDemo', component: () => import('@/views/ai/SuggestionDemo.vue'), meta: { title: 'menu.aiSuggestion' } },
+      { path: 'sender', name: 'AiSenderDemo', component: () => import('@/views/ai/SenderDemo.vue'), meta: { title: 'menu.aiSender' } },
+      { path: 'attachments', name: 'AiAttachmentsDemo', component: () => import('@/views/ai/AttachmentsDemo.vue'), meta: { title: 'menu.aiAttachments' } },
+      { path: 'welcome', name: 'AiWelcomeDemo', component: () => import('@/views/ai/WelcomeDemo.vue'), meta: { title: 'menu.aiWelcome' } },
+      { path: 'conversations', name: 'AiConversationsDemo', component: () => import('@/views/ai/ConversationsDemo.vue'), meta: { title: 'menu.aiConversations' } },
+      { path: 'bubble-list', name: 'AiBubbleListDemo', component: () => import('@/views/ai/BubbleListDemo.vue'), meta: { title: 'menu.aiBubbleList' } },
+      { path: 'file-card', name: 'AiFileCardDemo', component: () => import('@/views/ai/FileCardDemo.vue'), meta: { title: 'menu.aiFileCard' } },
+      { path: 'typewriter', name: 'AiTypewriterDemo', component: () => import('@/views/ai/TypewriterDemo.vue'), meta: { title: 'menu.aiTypewriter' } },
+      { path: 'reasoning-tree', name: 'AiReasoningTreeDemo', component: () => import('@/views/ai/ReasoningTreeDemo.vue'), meta: { title: 'menu.aiReasoningTree' } },
+      { path: 'mention-input', name: 'AiMentionInputDemo', component: () => import('@/views/ai/MentionInputDemo.vue'), meta: { title: 'menu.aiMentionInput' } },
+      { path: 'use-typing-stream', name: 'AiUseTypingStreamDemo', component: () => import('@/views/ai/UseTypingStreamDemo.vue'), meta: { title: 'useTypingStream' } },
+      { path: 'use-voice-record', name: 'AiUseVoiceRecordDemo', component: () => import('@/views/ai/UseVoiceRecordDemo.vue'), meta: { title: 'useVoiceRecord' } },
+      { path: 'use-chat-request', name: 'AiUseChatRequestDemo', component: () => import('@/views/ai/UseChatRequestDemo.vue'), meta: { title: 'useChatRequest' } },
+    ],
+  },
+
   // ---- Permission ----
   {
     path: '/permission-management',

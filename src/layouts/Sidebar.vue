@@ -375,6 +375,35 @@ const menuOptions = computed<MenuOption[]>(() => [
           },
         ],
       },
+      {
+        label: () => '📂 业务示例',
+        key: 'multi-level-biz',
+        children: [
+          {
+            label: () => '💬 聊天',
+            key: 'multi-level-biz-chat',
+            children: [
+              { label: () => '微信风格', key: '/multi-level/biz/chat/wechat' },
+              { label: () => 'QQ 风格', key: '/multi-level/biz/chat/qq' },
+            ],
+          },
+          {
+            label: () => '🛒 电商',
+            key: 'multi-level-biz-ecom',
+            children: [
+              { label: () => '淘宝商品流', key: '/multi-level/biz/ecom/taobao' },
+              { label: () => '拼多多拼团', key: '/multi-level/biz/ecom/pdd' },
+            ],
+          },
+          {
+            label: () => '📺 视频',
+            key: 'multi-level-biz-video',
+            children: [
+              { label: () => 'B 站弹幕', key: '/multi-level/biz/video/bilibili' },
+            ],
+          },
+        ],
+      },
     ],
   },
   {
@@ -384,6 +413,68 @@ const menuOptions = computed<MenuOption[]>(() => [
     children: [
       { label: () => t('menu.maze'), key: '/rules/maze' },
       { label: () => t('menu.sorting'), key: '/rules/sorting' },
+    ],
+  },
+  {
+    label: () => t('menu.aiComponents'),
+    key: 'ai',
+    icon: () => h(NIcon, null, { default: () => h('span', '🤖') }),
+    children: [
+      {
+        label: () => t('menu.aiGroupOverview'),
+        key: 'ai-overview',
+        children: [
+          { label: () => t('menu.aiPlayground'), key: '/ai/playground' },
+        ],
+      },
+      {
+        label: () => t('menu.aiGroupDisplay'),
+        key: 'ai-display',
+        children: [
+          { label: () => t('menu.aiChat'), key: '/ai/chat' },
+          { label: () => t('menu.aiBubble'), key: '/ai/bubble' },
+          { label: () => t('menu.aiBubbleList'), key: '/ai/bubble-list' },
+          { label: () => t('menu.aiConversations'), key: '/ai/conversations' },
+          { label: () => t('menu.aiWelcome'), key: '/ai/welcome' },
+        ],
+      },
+      {
+        label: () => t('menu.aiGroupInput'),
+        key: 'ai-input',
+        children: [
+          { label: () => t('menu.aiSender'), key: '/ai/sender' },
+          { label: () => t('menu.aiMentionInput'), key: '/ai/mention-input' },
+          { label: () => t('menu.aiPrompts'), key: '/ai/prompts' },
+          { label: () => t('menu.aiSuggestion'), key: '/ai/suggestion' },
+        ],
+      },
+      {
+        label: () => t('menu.aiGroupFiles'),
+        key: 'ai-files',
+        children: [
+          { label: () => t('menu.aiAttachments'), key: '/ai/attachments' },
+          { label: () => t('menu.aiFileCard'), key: '/ai/file-card' },
+        ],
+      },
+      {
+        label: () => t('menu.aiGroupOutput'),
+        key: 'ai-output',
+        children: [
+          { label: () => t('menu.aiStreaming'), key: '/ai/streaming' },
+          { label: () => t('menu.aiTypewriter'), key: '/ai/typewriter' },
+          { label: () => t('menu.aiThinking'), key: '/ai/thinking' },
+          { label: () => t('menu.aiReasoningTree'), key: '/ai/reasoning-tree' },
+        ],
+      },
+      {
+        label: () => t('menu.aiGroupHooks'),
+        key: 'ai-hooks',
+        children: [
+          { label: () => 'useTypingStream', key: '/ai/use-typing-stream' },
+          { label: () => 'useVoiceRecord', key: '/ai/use-voice-record' },
+          { label: () => 'useChatRequest', key: '/ai/use-chat-request' },
+        ],
+      },
     ],
   },
   {
