@@ -15,6 +15,7 @@ export default defineConfig(({ mode }): UserConfig => {
   const isAnalyze = mode === 'analyze'
 
   return {
+    base: '/vue3-naiveui-admin-ts/',
     plugins: [
       vue(),
 
