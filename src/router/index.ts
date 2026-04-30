@@ -665,7 +665,7 @@ export const staticRoutes: RouteRecordRaw[] = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: staticRoutes,
 })
 
